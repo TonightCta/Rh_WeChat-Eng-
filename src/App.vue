@@ -16,4 +16,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+#nprogress .bar {
+    background: red !important; 
+}
 </style>
