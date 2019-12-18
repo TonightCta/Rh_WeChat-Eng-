@@ -1,43 +1,23 @@
-<!-- 注册 -->
+<!-- 忘记密码 -->
 <template lang="html">
-  <div class="register">
+  <div class="pass_forget">
     <LoginHeader>
-      <p>注册</p>
+      <p>忘记密码</p>
     </LoginHeader>
-    <div class="register_con">
-      <p>
-        <van-radio-group v-model="radio">
-          <p style="display:flex;marginTop:1rem;justify-content: space-around;marginBottom:1rem;">
-            <van-radio name="1" checked-color="red" icon-size="16">兼职</van-radio>
-            <van-radio name="2" checked-color="red" icon-size="16">全职</van-radio>
-          </p>
-        </van-radio-group>
-      </p>
+    <div class="forget_con">
       <p>
         <input type="number" name="" value="" placeholder="请输入手机号">
       </p>
       <p>
-        <input type="password" name="" value="" placeholder="请输入密码">
-      </p>
-      <p>
-        <input type="number" name="" value="" placeholder="请输入推荐人手机号(选填)">
+        <input type="password" name="" value="" placeholder="请输入新密码">
       </p>
       <p  style="display:flex;">
         <input type="number" name="" value="" placeholder="请输入验证码">
         <button type="button" name="button" @click="sendCode()" :disabled="senCodeBtn" ref="codeBtn">{{codeText}}</button>
       </p>
-
-      <p class="register_text">
-        注册即同意
-        <span>
-          <<用户注册协议>>
-        </span>
-      </p>
       <span>
-        <button type="button" name="button">注册</button>
+        <button type="button" name="button">登录</button>
       </span>
-      <router-link to="/companyRe" tag="p" class="company_re">临时企业注册入口>></router-link>
-      <!-- <p class="company_re">>></p> -->
     </div>
   </div>
 </template>
@@ -54,7 +34,6 @@ export default {
       codeTime:60,//验证码倒计时
       senCodeBtn:false,//是否禁用按钮
       timer:null,
-      radio:1,
     }
   },
   methods:{
@@ -86,10 +65,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.register{
+.pass_forget{
   width: 100%;
-  padding-bottom: 1rem;
-  .register_con{
+  .forget_con{
     width: 75%;
     margin:0 auto;
     padding-top: 1rem;
@@ -114,13 +92,6 @@ export default {
         border-radius: 5px;
       }
     }
-    .register_text{
-      line-height: 5rem;
-      span{
-        color:$tem-color;
-        display: inline;
-      }
-    }
     span{
       width: 100%;
       margin-top: 2rem;
@@ -134,11 +105,7 @@ export default {
         border-radius: 20px;
       }
     }
-    .company_re{
-      margin-top: 2rem;
-      font-size: 1.5rem;
-      color:$tem-color;
-    }
   }
 }
+
 </style>

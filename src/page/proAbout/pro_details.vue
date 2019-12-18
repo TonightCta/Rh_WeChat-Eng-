@@ -25,23 +25,24 @@
         <p class="mes_title">所需技能和方向:</p>
         <p class="mes_message">数通>高级</p>
         <p class="mes_title">涉及到的设备:</p>
-
       </div>
     </div>
     <!-- 立即接单 -->
     <div class="pro_apply">
       <p>
-        <van-icon name="phone" color="red" size="26" /><br>
+        <van-icon name="phone" color="#C93625" size="26" /><br>
         客服
       </p>
       <p>
-        <button type="button" name="button">立即接单</button>
+        <!-- <router-link to="/proApply" tag="button">申请接单</router-link> -->
+        <button type="button" name="button" @click="applyPro()">立即接单</button>
       </p>
     </div>
   </div>
 </template>
 
 <script>
+import {mapState} from 'vuex'
 import WorkHeader from '@/components/work_header'
 export default {
   data(){
@@ -50,8 +51,16 @@ export default {
     }
   },
   components:{WorkHeader},
+  computed:{
+    ...mapState(['proMesV'])
+  },
   created(){
-    this.proMes=this.$route.params.proMes;
+    this.proMes=this.proMesV;
+  },
+  methods:{
+    applyPro(){
+      this.$router.push('/proApply')
+    }
   }
 }
 </script>
@@ -150,7 +159,7 @@ export default {
       button{
         width: 96%;
         height: 90%;
-        background: $tem-color;
+        background: $btn-color;
         color:white;
         font-size: 1.5rem;
         border-radius: 5px;

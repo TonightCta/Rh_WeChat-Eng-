@@ -4,6 +4,7 @@ import Vant from 'vant'
 import 'vant/lib/index.css'
 import './index.css'
 import '../static/css/aimate.css'
+import store from './assets/store/store'
 import router from './router';
 import VueWechatTitle from 'vue-wechat-title';
 import { Lazyload } from 'vant';
@@ -24,6 +25,7 @@ Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  store,
   router,
   render: h => h(App)
 })

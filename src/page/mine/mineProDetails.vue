@@ -15,6 +15,26 @@
           <!-- <span>报名中</span> -->
         </p>
       </div>
+      <div class="" style="marginBottom:1rem;borderBottom:12px solid #eee;boxSizing:border-box;paddingLeft:1rem;">
+        <van-steps direction="vertical" :active="proMes.state" active-color="#C93625">
+          <van-step>
+            <p>提交申请,等待审核</p>
+            <p>2016-07-12 12:40</p>
+          </van-step>
+          <van-step>
+            <p>接单成功</p>
+            <p>2016-07-11 10:00</p>
+          </van-step>
+          <van-step>
+            <p>等待交付</p>
+            <p>2016-07-10 09:30</p>
+          </van-step>
+          <van-step>
+            <p>等待付款</p>
+            <p>2016-07-10 09:30</p>
+          </van-step>
+        </van-steps>
+      </div>
       <div class="con_place">
         <p>时间:&nbsp;{{proMes.beginTime}}</p>
         <p>地点:&nbsp;{{proMes.place}}</p>
@@ -32,7 +52,7 @@
     <div class="pro_state">
       <p v-if="proMes.state==1" style="color:red;">进行中</p>
       <p v-if="proMes.state==2">
-        <button type="button" name="button">立即交付</button>
+        <button type="button" name="button" @click="liverPro()">立即交付</button>
       </p>
       <p v-if="proMes.state==3" style="color:#999;">已申请</p>
       <p v-if="proMes.state==4" style="color:#666;">已完成</p>
@@ -42,6 +62,7 @@
 
 <script>
 import WorkHeader from '@/components/work_header'
+import {mapState} from 'vuex'
 export default {
   data(){
     return{
@@ -50,7 +71,18 @@ export default {
   },
   components:{WorkHeader},
   created(){
-    this.proMes=this.$route.params.proMes;
+    this.proMes=this.proMesV;
+    consol
+  },
+  computed:{
+    ...mapState(['proMesV'])
+  },
+  methods:{
+    liverPro(){
+      this.$router.push({
+        path:'/mineLiver'
+      })
+    }
   }
 }
 </script>
@@ -144,7 +176,7 @@ export default {
         margin-top: .5rem;
         border-radius: 8px;
         color:white;
-        background: $tem-color;
+        background: $btn-color;
       }
     }
   }

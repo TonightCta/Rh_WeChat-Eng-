@@ -17,7 +17,7 @@
               <span class="pro_date pro_public">执行时间:{{pro.beginTime}}至{{pro.endTime}}</span>
               <span class="pro_count">￥{{pro.count}}</span>
               <span class="pro_status">
-                <van-button round type="info" size="small" color="red" @click="proApply(indexPro)">立即申请</van-button>
+                <van-button round type="info" size="small" color="#404040" @click="proApply(indexPro)">立即申请</van-button>
               </span>
             </van-cell>
           </van-list>
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import {mapMutations} from 'vuex'
 export default {
   data(){
     return{
@@ -86,6 +87,7 @@ export default {
     }
   },
   methods:{
+    ...mapMutations(['proMes_fn']),
     onLoad() {   //下拉加载
       setTimeout(() => {
         this.loading = false;
@@ -102,11 +104,9 @@ export default {
        }, 500);
     },
     proApply(indexPro){
+      this.proMes_fn(this.proList[indexPro])
       this.$router.push({
-        name:'ProDetials',
-        params:{
-          proMes:this.proList[indexPro]
-        }
+        name:'ProDetials'
       })
     },
   }

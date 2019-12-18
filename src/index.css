@@ -71,5 +71,9 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
             font-family: "微软雅黑";
         }
 
-
-        
+.van-uploader__preview,.van-uploader__upload{
+  margin-left: 2rem;
+}
+.van-step--finish .van-step__circle, .van-step--finish .van-step__line{
+  background-color: #C93625;
+}

@@ -49,7 +49,6 @@ export default {
     .user_icon{
       width: 8rem;
       height: 8rem;
-      background: black;
       margin:0 auto;
       margin-top:4rem;
       img{

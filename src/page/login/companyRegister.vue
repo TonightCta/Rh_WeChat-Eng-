@@ -1,18 +1,8 @@
-<!-- 注册 -->
+<!-- 企业注册 -->
 <template lang="html">
-  <div class="register">
-    <LoginHeader>
-      <p>注册</p>
-    </LoginHeader>
+  <div class="company_register">
+    <LoginHeader/>
     <div class="register_con">
-      <p>
-        <van-radio-group v-model="radio">
-          <p style="display:flex;marginTop:1rem;justify-content: space-around;marginBottom:1rem;">
-            <van-radio name="1" checked-color="red" icon-size="16">兼职</van-radio>
-            <van-radio name="2" checked-color="red" icon-size="16">全职</van-radio>
-          </p>
-        </van-radio-group>
-      </p>
       <p>
         <input type="number" name="" value="" placeholder="请输入手机号">
       </p>
@@ -20,7 +10,7 @@
         <input type="password" name="" value="" placeholder="请输入密码">
       </p>
       <p>
-        <input type="number" name="" value="" placeholder="请输入推荐人手机号(选填)">
+        <input type="number" name="" value="" placeholder="请输入公司全称">
       </p>
       <p  style="display:flex;">
         <input type="number" name="" value="" placeholder="请输入验证码">
@@ -30,14 +20,12 @@
       <p class="register_text">
         注册即同意
         <span>
-          <<用户注册协议>>
+          <<企业注册协议>>
         </span>
       </p>
       <span>
         <button type="button" name="button">注册</button>
       </span>
-      <router-link to="/companyRe" tag="p" class="company_re">临时企业注册入口>></router-link>
-      <!-- <p class="company_re">>></p> -->
     </div>
   </div>
 </template>
@@ -86,59 +74,55 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.register{
-  width: 100%;
-  padding-bottom: 1rem;
-  .register_con{
-    width: 75%;
-    margin:0 auto;
-    padding-top: 1rem;
-    p{
+.register_con{
+  width: 75%;
+  margin:0 auto;
+  padding-top: 1rem;
+  p{
+    width: 100%;
+    input{
+      border-bottom:1px solid #ccc;
       width: 100%;
-      input{
-        border-bottom:1px solid #ccc;
-        width: 100%;
-        height: 4rem;
-        line-height: 4rem;
-        font-size: 1.4rem;
-      }
-      .code_inp{
-        width: 60%;
-      }
-      button{
-        width: 50%;
-        height: 3rem;
-        margin-top: .5rem;
-        background: $btn-color;
-        color:white;
-        border-radius: 5px;
-      }
+      height: 4rem;
+      line-height: 4rem;
+      font-size: 1.4rem;
     }
-    .register_text{
-      line-height: 5rem;
-      span{
-        color:$tem-color;
-        display: inline;
-      }
+    .code_inp{
+      width: 60%;
     }
+    button{
+      width: 50%;
+      height: 3rem;
+      margin-top: .5rem;
+      background: $btn-color;
+      color:white;
+      border-radius: 5px;
+    }
+  }
+  .register_text{
+    line-height: 5rem;
     span{
-      width: 100%;
-      margin-top: 2rem;
-      button{
-        margin:0 auto;
-        width: 100%;
-        height: 3.5rem;
-        font-size: 1.5rem;
-        background: $btn-color;
-        color:white;
-        border-radius: 20px;
-      }
-    }
-    .company_re{
-      margin-top: 2rem;
-      font-size: 1.5rem;
       color:$tem-color;
+      display: inline;
     }
+  }
+  span{
+    width: 100%;
+    margin-top: 2rem;
+    button{
+      margin:0 auto;
+      width: 100%;
+      height: 3.5rem;
+      font-size: 1.5rem;
+      background: $btn-color;
+      color:white;
+      border-radius: 20px;
+    }
+  }
+  .company_re{
+    margin-top: 2rem;
+    font-size: 1.5rem;
+    color:$tem-color;
   }
 }
 </style>

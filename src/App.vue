@@ -17,6 +17,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
 }
 #nprogress .bar {
-    background: red !important; 
+    background: #C93625 !important; 
 }
 </style>

@@ -21,7 +21,7 @@
               <span class="pro_date pro_public">执行时间:{{pro.beginTime}}至{{pro.endTime}}</span>
               <span class="pro_count">￥{{pro.count}}</span>
               <span class="pro_status">
-                <van-button round type="info" size="small" color="red" v-if="pro.state==2">未交付</van-button>
+                <van-button round type="info" size="small" color="#404040" v-if="pro.state==2">未交付</van-button>
                 <span v-if="pro.state==4" class="public_tate" style="color:#666;">已完成</span>
                 <span v-if="pro.state==1" class="public_tate" style="color:red;">进行中</span>
                 <span v-if="pro.state==3" class="public_tate" style="color:#ccc;">已申请</span>
@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import {mapMutations} from 'vuex'
 import WorkHeader from '@/components/work_header'
 export default {
   data(){
@@ -86,6 +87,7 @@ export default {
   },
   components:{WorkHeader},
   methods:{
+    ...mapMutations(['proMes_fn']),
     onLoad() {   //下拉加载
       setTimeout(() => {
         this.loading = false;
@@ -102,11 +104,9 @@ export default {
        }, 500);
     },
     mineDetails(index){//接单详情
+      this.proMes_fn(this.proList[index])
       this.$router.push({
-        name:'MineProDe',
-        params:{
-          proMes:this.proList[index]
-        }
+        name:'MineProDe'
       })
     }
   }

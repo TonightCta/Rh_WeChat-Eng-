@@ -23,10 +23,13 @@ const router=new Router({
     {
       path:'/register',//注册
       name:'Regisiter',
-      component:resolve=>require(['@/page/login/register'],resolve)
+      component:resolve=>require(['@/page/login/register'],resolve),
+      meta:{
+        title:'注册'
+      }
     },
     {
-      path:'/login',
+      path:'/login',//登录
       name:'Login',
       component:resolve=>require(['@/page/login/login'],resolve),
       meta:{
@@ -34,9 +37,30 @@ const router=new Router({
       }
     },
     {
+      path:'/passForget',//忘记密码
+      name:'PassForGet',
+      component:resolve=>require(['@/page/login/passForget'],resolve),
+      meta:{
+        title:'忘记密码'
+      }
+    },
+    {
+      path:'/companyRe',//企业注册
+      name:'CompanyRe',
+      component:resolve=>require(['@/page/login/companyRegister'],resolve),
+      meta:{
+        title:'企业注册'
+      }
+    },
+    {
       path:'/proDetials',//项目详情,
       name:'ProDetials',
       component:resolve=>require(['@/page/proAbout/pro_details'],resolve)
+    },
+    {
+      path:'/proApply',//申请接单
+      name:'ProApply',
+      component:resolve=>require(['@/page/proAbout/pro_apply'],resolve)
     },
     {
       path:'/mine',//个人中心
@@ -62,6 +86,11 @@ const router=new Router({
       path:'/mineAuth',//我的认证
       name:'MineAuth',
       component:resolve=>require(['@/page/mine/mineAuth'],resolve)
+    },
+    {
+      path:'/mineLiver',//项目交付
+      name:'MineLiver',
+      component:resolve=>require(['@/page/mine/mineNLiver'],resolve)
     }
   ]
 });
