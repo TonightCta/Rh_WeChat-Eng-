@@ -88,6 +88,41 @@ const router=new Router({
       component:resolve=>require(['@/page/mine/mineAuth'],resolve)
     },
     {
+      path:'/mineFeild',//擅长领域
+      name:'MineFeild',
+      component:resolve=>require(['@/page/mine/mineFeild'],resolve)
+    },
+    {
+      path:'/mineCard',//身份认证
+      name:'MineCard',
+      component:resolve=>require(['@/page/mine/mineCard'],resolve)
+    },
+    {
+      path:'/skillList',//技能列表
+      name:'SkillList',
+      component:resolve=>require(['@/page/mine/skillList'],resolve)
+    },
+    {
+      path:'/addSkill',//添加技能认证
+      name:'AddSkill',
+      component:resolve=>require(['@/page/mine/addSkill'],resolve)
+    },
+    {
+      path:'/engAuth',//工程师认证
+      name:'EngAuth',
+      component:resolve=>require(['@/page/mine/engAuth'],resolve)
+    },
+    {
+      path:'/engCard',//工程师资质认证
+      name:'EngCard',
+      component:resolve=>require(['@/page/mine/engCard'],resolve)
+    },
+    {
+      path:'/alipayAuth',//支付宝认证
+      name:'AlipayAuth',
+      component:resolve=>require(['@/page/mine/alipayAuth'],resolve)
+    },
+    {
       path:'/mineLiver',//项目交付
       name:'MineLiver',
       component:resolve=>require(['@/page/mine/mineNLiver'],resolve)

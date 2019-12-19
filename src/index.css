@@ -77,3 +77,6 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
 .van-step--finish .van-step__circle, .van-step--finish .van-step__line{
   background-color: #C93625;
 }
+.van-picker__confirm,.van-picker__cancel{
+  color:#C93625;
+}

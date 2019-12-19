@@ -72,7 +72,6 @@ export default {
   components:{WorkHeader},
   created(){
     this.proMes=this.proMesV;
-    consol
   },
   computed:{
     ...mapState(['proMesV'])

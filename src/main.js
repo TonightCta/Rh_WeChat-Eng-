@@ -7,7 +7,7 @@ import '../static/css/aimate.css'
 import store from './assets/store/store'
 import router from './router';
 import VueWechatTitle from 'vue-wechat-title';
-import { Lazyload } from 'vant';
+import { Lazyload,Dialog  } from 'vant';
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 NProgress.configure({
@@ -20,6 +20,7 @@ NProgress.configure({
 Vue.use(VueWechatTitle)
 Vue.use(Lazyload)
 Vue.use(Vant)
+Vue.use(Dialog)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

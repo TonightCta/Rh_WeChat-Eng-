@@ -29,6 +29,9 @@
         :min-date="minDate"
       />
     </van-popup>
+    <div class="sub_btn">
+      <button type="button" name="button">立即上传</button>
+    </div>
   </div>
 </template>
 
@@ -97,6 +100,21 @@ export default {
         //   justify-content: space-around;
         // }
       }
+    }
+  }
+  .sub_btn{
+    width: $tem-width;
+    position: fixed;
+    left:2.5%;
+    bottom:1rem;
+    button{
+      width: 100%;
+      height: 4rem;
+      border-radius: 20px;
+
+      background: $btn-color;
+      color:white;
+      font-size: 1.5rem;
     }
   }
 }

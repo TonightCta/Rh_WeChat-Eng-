@@ -13,27 +13,61 @@
           </p>
         </li>
         <li>
-          <button type="button" name="button">立即接单</button>
+          <button type="button" name="button" @click="subApply()">立即接单</button>
         </li>
       </ul>
+      <div class="mustknow">
+        <van-dialog
+          v-model="mustKnow"
+          title="申请需知"
+          @confirm="turnSub"
+          confirmButtonColor="#C93625"
+        >
+          <!-- <img src="https://img.yzcdn.cn/vant/apple-3.jpg"> -->
+          <p>一、我完成了一个任务可以拿到多少赏金？</p>
+          <span>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+          <p class="noAnswer">
+            <van-radio-group v-model="isAgain" checked-color="#C93625" icon-size="18">
+              <van-radio name="1">不再提示</van-radio>
+            </van-radio-group>
+          </p>
+        </van-dialog>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import WorkHeader from '@/components/work_header'
+// import {Dialog} from 'vant'
 export default {
   data(){
     return{
       fileList: [
         { url: 'https://img.yzcdn.cn/vant/leaf.jpg' },
-      ]
+      ],
+      mustKnow:false,//申请需知
+      isAgain:2,
     }
   },
   methods:{
     turnLoca(file){//选择文件
       console.log(file);
       console.log(this.fileList)
+    },
+    subApply(){//上传申请
+      this.mustKnow=true;
+    },
+    turnSub(){//提交申请
+      this.$dialog.alert({
+        message: '申请提交成功,等待平台审核！上传资质认证及相关证书提高成功率吧',
+        confirmButtonColor:'#C93625',
+        showCancelButton:true,
+      }).then(()=>{
+        // alert(1)
+      }).catch(()=>{
+        // alert(2)/
+      })
     },
   },
   components:{
@@ -78,6 +112,22 @@ export default {
       }
     }
   }
-
+  .mustknow{
+    p{
+      font-size: 1.5rem;
+      text-align: center;
+    }
+    span{
+      width: 80%;
+      margin-left:4rem;
+      margin-top: 1rem;
+      word-wrap:break-word;
+    }
+    .noAnswer{
+      margin-top: 2rem;
+      margin-left: 2rem;
+      margin-bottom: 1rem;
+    }
+  }
 }
 </style>
