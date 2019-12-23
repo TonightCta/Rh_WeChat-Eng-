@@ -93,6 +93,11 @@ const router=new Router({
       component:resolve=>require(['@/page/mine/mineFeild'],resolve)
     },
     {
+      path:'/mineIndu',//擅长行业
+      name:'MineIndu',
+      component:resolve=>require(['@/page/mine/mineIndu'],resolve)
+    },
+    {
       path:'/mineCard',//身份认证
       name:'MineCard',
       component:resolve=>require(['@/page/mine/mineCard'],resolve)
@@ -111,6 +116,11 @@ const router=new Router({
       path:'/engAuth',//工程师认证
       name:'EngAuth',
       component:resolve=>require(['@/page/mine/engAuth'],resolve)
+    },
+    {
+      path:'/mineType',//服务类型
+      name:'MineType',
+      component:resolve=>require(['@/page/mine/mineType'],resolve)
     },
     {
       path:'/engCard',//工程师资质认证

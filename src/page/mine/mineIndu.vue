@@ -1,17 +1,17 @@
-<!-- 擅长领域 -->
+<!-- 擅长行业 -->
 <template lang="html">
-  <div class="mine_feild">
+  <div class="mine_indu">
     <WorkHeader>
-      <p>擅长领域</p>
+      <p>擅长行业</p>
     </WorkHeader>
-    <div class="feild_con">
+    <div class="indu_con">
       <ul>
         <li v-for="(filed,indexFe) in felidList" ref="feildDom" @click="choseFeild(indexFe)">
           <span ref="feildBack" @click.stop="backFeild(indexFe)"></span>
           {{filed}}</li>
       </ul>
       <p class="manual_add">
-        <input type="text" name="" value="" placeholder="自行添加擅长技能" v-model="manualText">
+        <input type="text" name="" value="" placeholder="自行添加擅长行业" v-model="manualText">
         <button type="button" name="button" v-show="isText">确定</button>
       </p>
     </div>
@@ -24,7 +24,7 @@ export default {
   components:{WorkHeader},
   data(){
     return{
-      felidList:['IT','数通','HCIP'],
+      felidList:['Ucc','数通','IT'],
       manualText:null,//自编辑技能
       isText:false,//添加按钮
     }
@@ -54,10 +54,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.mine_feild{
+.mine_indu{
   width: 100%;
   padding-top: 5rem;
-  .feild_con{
+  .indu_con{
     width: $tem-width;
     margin:0 auto;
     ul{

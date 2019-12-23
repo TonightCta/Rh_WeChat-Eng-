@@ -10,14 +10,14 @@
           <span>所在地区:</span>
           <input type="text" name="" value="" placeholder="请选择所在地区" v-model="cityText" @click="placeChose=true">
         </li>
-        <li>
+        <router-link to="/mineFeild" tag="li">
           <span>擅长领域:</span>
           <input type="text" name="" value="" placeholder="请选择至少五项擅长领域" disabled="disabled">
-        </li>
-        <li>
+        </router-link>
+        <router-link to='/mineType' tag="li">
           <span>服务类型:</span>
           <input type="text" name="" value="" placeholder="请选择至少五项服务类型" disabled="disabled">
-        </li>
+        </router-link>
         <li>
           <span>可接受服务区域:</span>
           <input type="text" name="" value="" placeholder="请选择至少五项服务区域" disabled="disabled">

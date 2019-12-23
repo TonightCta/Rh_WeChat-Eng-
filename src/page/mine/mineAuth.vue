@@ -39,13 +39,10 @@
               <van-icon name="arrow" size="22"/>
             </span>
         </router-link>
-        <li>
+        <router-link to="/mineFeild" tag="li">
           擅长领域
             <span class="public_text" style="color:#C93625;">添加</span>
-            <!-- <span class="public_text icon">
-              <van-icon name="arrow" size="22"/>
-            </span> -->
-        </li>
+        </router-link>
       </ul>
     </div>
   </div>
