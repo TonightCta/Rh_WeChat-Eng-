@@ -4,19 +4,18 @@
     <LoginHeader/>
     <div class="register_con">
       <p>
-        <input type="number" name="" value="" placeholder="请输入手机号">
+        <input type="number" name="" value="" placeholder="请输入手机号" v-model="userPhone">
       </p>
       <p>
-        <input type="password" name="" value="" placeholder="请输入密码">
+        <input type="password" name="" value="" placeholder="请输入密码" v-model="userPass">
       </p>
       <p>
-        <input type="number" name="" value="" placeholder="请输入公司全称">
+        <input type="number" name="" value="" placeholder="请输入公司全称" v-model="companyName">
       </p>
       <p  style="display:flex;">
-        <input type="number" name="" value="" placeholder="请输入验证码">
+        <input type="number" name="" value="" placeholder="请输入验证码" v-model="msgcode">
         <button type="button" name="button" @click="sendCode()" :disabled="senCodeBtn" ref="codeBtn">{{codeText}}</button>
       </p>
-
       <p class="register_text">
         注册即同意
         <span>
@@ -43,30 +42,58 @@ export default {
       senCodeBtn:false,//是否禁用按钮
       timer:null,
       radio:1,
+      userPhone:null,//用户手机号
+      userPass:null,//用户密码
+      companyName:null,//公司名称
+      msgcode:null,//短信验证码
+      phoneCode:null,//回执验证码
     }
   },
   methods:{
     sendCode(){//发送验证码
-      this.$refs.codeBtn.style.background="#eee"
-      this.$refs.codeBtn.style.color="#666"
-      this.senCodeBtn=true;
-      this.codeText='接收验证码'+'('+this.codeTime--+')'
-      const TIME_COUNT = 59;
-       if (!this.timer) {
-         this.codeTime = TIME_COUNT;
-         this.timer = setInterval(() => {
-           if (this.codeTime > 0 && this.codeTime <= TIME_COUNT) {
-             this.codeText='接收验证码'+'('+this.codeTime--+')'
-            } else {
-             clearInterval(this.timer);
-             this.timer = null;
-             this.$refs.codeBtn.style.background="red"
-             this.$refs.codeBtn.style.color="white"
-             this.senCodeBtn=false;
-             this.codeText='发送验证码';
-             this.codeTime=60;
-            }
-         }, 1000)
+      alert(1)
+      if(this.userPhone==null||this.userPhone==''){
+        this.$toast('请输入手机号')
+      }else if(!(/^1[3456789]\d{9}$/.test(this.userPhone))){
+        this.$toast('请输入正确的手机号')
+      }else{
+        let Num=null;
+        Num+=Math.round(900000*Math.random()+100000);
+        this.phoneCode=Num;
+        let formdata=new FormData();
+        formdata.append('mobile',this.userPhone)
+        formdata.append('code',Num);
+        // this.$axios.post(this.url+'/ict/sms/sendSms',formdata).then((res)=>{
+        //   if(res.data.code==0){
+        //     this.$toast('验证码发送成功');
+        //     this.$refs.codeBtn.style.background="#eee"
+        //     this.$refs.codeBtn.style.color="#666"
+        //     this.senCodeBtn=true;
+        //     this.codeText='接收验证码'+'('+this.codeTime--+')'
+        //     const TIME_COUNT = 59;
+        //      if (!this.timer) {
+        //        this.codeTime = TIME_COUNT;
+        //        this.timer = setInterval(() => {
+        //          if (this.codeTime > 0 && this.codeTime <= TIME_COUNT) {
+        //            this.codeText='接收验证码'+'('+this.codeTime--+')'
+        //           } else {
+        //            clearInterval(this.timer);
+        //            this.timer = null;
+        //            this.$refs.codeBtn.style.background="red"
+        //            this.$refs.codeBtn.style.color="white"
+        //            this.senCodeBtn=false;
+        //            this.codeText='发送验证码';
+        //            this.codeTime=60;
+        //           }
+        //        }, 1000)
+        //     }
+        //   }else{
+        //     this.$toast(res.data.msg)
+        //   }
+        // }).catch((err)=>{
+        //   this.$toast('未知错误,请联系客服')
+        //   // console.log(err)
+        // })
       }
     },
   }

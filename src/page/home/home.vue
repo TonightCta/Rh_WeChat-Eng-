@@ -14,8 +14,15 @@
 import Header from '@/components/home_header'
 import Swiper from '@/page/home/swiper'
 import ProList from '@/page/home/proList'
+import {mapState} from 'vuex'
 export default {
-  components:{Header,Swiper,ProList}
+  components:{Header,Swiper,ProList},
+  computed:{
+    ...mapState(['token'])
+  },
+  mounted(){
+    console.log(this.token)
+  }
 }
 </script>
 
