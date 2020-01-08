@@ -10,21 +10,21 @@
           <img src="../../../static/img/dont.jpg" alt="">
         </p>
         <p class="pro_title">
-          <span>{{proMes.code}}</span></br>
-          <span class="pro_count">￥0-{{proMes.count}}</span>
-          <span>报名中</span>
+          <span>{{proMes.category}}</span></br>
+          <span class="pro_count">￥{{parseInt(proMes.minBudget)}}-{{parseInt(proMes.maxBudget)}}</span>
+          <span v-if="proMes.state==0">报名中</span>
         </p>
       </div>
       <div class="con_place">
-        <p>时间:&nbsp;{{proMes.beginTime}}</p>
+        <p>时间:&nbsp;{{proMes.startTime}}</p>
         <p>地点:&nbsp;{{proMes.place}}</p>
       </div>
       <div class="con_mes">
         <p class="mes_title">服务内容和要求:</p>
-        <p class="mes_message">棋盘井光纤</p>
+        <p class="mes_message">{{proMes.type}}</p>
         <p class="mes_title">所需技能和方向:</p>
-        <p class="mes_message">数通>高级</p>
-        <p class="mes_title">涉及到的设备:</p>
+        <p class="mes_message">{{proMes.category}}</p>
+        <!-- <p class="mes_title">涉及到的设备:</p> -->
       </div>
     </div>
     <!-- 立即接单 -->
@@ -52,14 +52,26 @@ export default {
   },
   components:{WorkHeader},
   computed:{
-    ...mapState(['proMesV'])
+    ...mapState(['proMesV','userMes'])
   },
   created(){
     this.proMes=this.proMesV;
   },
   methods:{
     applyPro(){
-      this.$router.push('/proApply')
+      console.log(this.userMes);
+      if(this.userMes.ictEngineerVO.state==0){
+        this.$toast('您还未进行工程师认证！');
+        setTimeout(()=>{
+          this.$router.push('/mineAuth')
+        },300)
+      }else if(this.userMes.ictEngineerVO.state==1){
+        this.$toast('您的认证信息正在审核中，请稍后再试！');
+      }else if(this.userMes.ictEngineerVO.state==-1){
+        this.$toast('您的认证被驳回，请更新认证后再试！');
+      }else{
+        this.$router.push('/proApply')
+      }
     }
   }
 }

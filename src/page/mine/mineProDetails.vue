@@ -10,8 +10,8 @@
           <img src="../../../static/img/dont.jpg" alt="">
         </p>
         <p class="pro_title">
-          <span>{{proMes.code}}</span></br>
-          <span class="pro_count">￥0-{{proMes.count}}</span>
+          <span>{{proMes.ictDemandVO.projectName}}</span></br>
+          <span class="pro_count">￥{{parseInt(proMes.ictDemandVO.minBudget)}}-{{parseInt(proMes.ictDemandVO.maxBudget)}}</span>
           <!-- <span>报名中</span> -->
         </p>
       </div>
@@ -19,11 +19,11 @@
         <van-steps direction="vertical" :active="proMes.state" active-color="#C93625">
           <van-step>
             <p>提交申请,等待审核</p>
-            <p>2016-07-12 12:40</p>
+            <p>{{proMes.applyTime}}</p>
           </van-step>
           <van-step>
             <p>接单成功</p>
-            <p>2016-07-11 10:00</p>
+            <p v-if="proMes.chooseTime!=null">{{proMes.chooseTime}}</p>
           </van-step>
           <van-step>
             <p>等待交付</p>
@@ -36,26 +36,26 @@
         </van-steps>
       </div>
       <div class="con_place">
-        <p>时间:&nbsp;{{proMes.beginTime}}</p>
-        <p>地点:&nbsp;{{proMes.place}}</p>
+        <p>时间:&nbsp;{{proMes.ictDemandVO.startTime}}</p>
+        <p>地点:&nbsp;{{proMes.ictDemandVO.address}}</p>
       </div>
       <div class="con_mes">
         <p class="mes_title">服务内容和要求:</p>
         <p class="mes_message">棋盘井光纤</p>
         <p class="mes_title">所需技能和方向:</p>
-        <p class="mes_message">数通>高级</p>
-        <p class="mes_title">涉及到的设备:</p>
+        <p class="mes_message">{{proMes.ictDemandVO.category}}</p>
 
       </div>
     </div>
     <!-- 立即接单 -->
     <div class="pro_state">
-      <p v-if="proMes.state==1" style="color:red;">进行中</p>
-      <p v-if="proMes.state==2">
-        <button type="button" name="button" @click="liverPro()">立即交付</button>
+      <p v-if="proMes.state==0" style="color:#999;">已申请</p>
+      <p v-if="proMes.ictDemandVO.state==3" style="color:#666;">已完成</p>
+      <p v-if="proMes.ictDemandVO.state==4" style="color:#C93625;">已付款</p>
+      <p v-if="proMes.choose!=null">
+        <button type="button" name="button" @click="liverPro()" v-if="proMes.choose">立即交付</button>
+        <span v-else style="color:#666;">未入选</span>
       </p>
-      <p v-if="proMes.state==3" style="color:#999;">已申请</p>
-      <p v-if="proMes.state==4" style="color:#666;">已完成</p>
     </div>
   </div>
 </template>
@@ -72,6 +72,8 @@ export default {
   components:{WorkHeader},
   created(){
     this.proMes=this.proMesV;
+    console.log(this.proMes)
+
   },
   computed:{
     ...mapState(['proMesV'])

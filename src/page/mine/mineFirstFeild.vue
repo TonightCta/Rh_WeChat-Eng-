@@ -1,23 +1,23 @@
-<!-- 擅长行业 -->
+<!-- 外层擅长领域 -->
 <template lang="html">
-  <div class="mine_indu">
+  <div class="mine_feild">
     <WorkHeader>
-      <p>擅长行业</p>
+      <p>擅长领域</p>
     </WorkHeader>
-    <div class="indu_con">
+    <div class="feild_con">
       <ul>
         <li v-for="(filed,indexFe) in felidList" ref="feildDom" @click="choseFeild(indexFe)">
           <span ref="feildBack" @click.stop="backFeild(indexFe)"></span>
           {{filed}}</li>
       </ul>
       <p class="manual_add">
-        <input type="text" name="" value="" placeholder="自行添加擅长行业" v-model="manualText">
-        <button type="button" name="button" v-show="isText">确定</button>
-      </p>
-      <p class="saveBtn">
-        <button type="button" name="button" @click="saveIndu()">保存</button>
+        <input type="text" name="" value="" placeholder="自行添加擅长技能" v-model="manualText">
+        <button type="button" name="button" v-show="isText" @click="pushSkill">确定</button>
       </p>
     </div>
+    <p class="saveBtn">
+      <button type="button" name="button" @click="saveFiled()">保存</button>
+    </p>
   </div>
 </template>
 
@@ -28,59 +28,63 @@ export default {
   components:{WorkHeader},
   data(){
     return{
-      felidList:['移动互联网','通信','电子商务','电子计算机','物联网','互联网信息及技术服务','电脑设备与软件'],
+      felidList:['数通安全','云计算','数据中心能源','软件开发','传输接入','大数据','企业无线','信息化应用软件','IT储存','企业云通信','专业服务','智能计算','其他'],
       manualText:null,//自编辑技能
       isText:false,//添加按钮
-      InduList:[],//选中行业
+      feildList:[],//选中领域
     }
   },
   computed:{
     ...mapState(['userMes','token'])
   },
   mounted(){
-    this.InduList=this.userMes.ictEngineerVO.industry.split('/');
-    for(let i in this.InduList){
-      this.$refs.feildDom[this.felidList.indexOf(this.InduList[i])].style.background="#C93625";
-      this.$refs.feildDom[this.felidList.indexOf(this.InduList[i])].style.color="white";
-      this.$refs.feildBack[this.felidList.indexOf(this.InduList[i])].style.display="block";
+    this.feildList=this.userMes.ictEngineerVO.expert.split('/');
+    for(let i in this.feildList){
+      this.$refs.feildDom[this.felidList.indexOf(this.feildList[i])].style.background="#C93625";
+      this.$refs.feildDom[this.felidList.indexOf(this.feildList[i])].style.color="white";
+      this.$refs.feildBack[this.felidList.indexOf(this.feildList[i])].style.display="block";
     }
   },
   methods:{
     ...mapMutations(['userMes_fn']),
-    choseFeild(index){//选中行业
+    choseFeild(index){//选中标签
       this.$refs.feildDom[index].style.background="#C93625"
       this.$refs.feildDom[index].style.color="white";
       this.$refs.feildBack[index].style.display="block";
-      this.InduList.push(this.felidList[index]);
+      this.feildList.push(this.felidList[index]);
     },
     backFeild(index){//取消选中
       this.$refs.feildDom[index].style.background="white";
       this.$refs.feildDom[index].style.color="black";
       this.$refs.feildBack[index].style.display="none";
-      this.InduList.splice(this.InduList.indexOf(this.felidList[index]),1);
+      this.feildList.splice(this.feildList.indexOf(this.felidList[index]),1);
     },
-    saveIndu(){//保存擅长行业
+    pushSkill(){//自定义添加标签
+      this.felidList.push(this.manualText);
+      this.manualText=null;
+    },
+    saveFiled(){//保存擅长领域
       let _this=this;
-      if(this.InduList.length<1){
-        _this.$toast('请选择至少一项擅长行业')
+      if(_this.feildList.length<5){
+        _this.$toast('请选择至少五项擅长领域')
       }else{
         let formdata=new FormData();
-        formdata.append('industry',_this.InduList.join('/'));
+        formdata.append('expert',_this.feildList.join('/'));
         _this.$axios.post(_this.url+'/ict/engineer/savePersonalCenter',formdata,{
           headers:{
             'Authorization':_this.token
           }
         }).then((res)=>{
-          console.log(res)
+          // console.log(res);
           if(res.data.code==0){
-            _this.$toast('保存擅长行业成功');
-            _this.userMes_fn(res.data.data.ictOperatorVO)
+            _this.userMes_fn(res.data.data.ictOperatorVO);
+            _this.$toast('保存擅长领域成功')
           }else{
             _this.$toast(res.data.msg)
           }
         }).catch((err)=>{
           _this.$toast('未知错误,请联系客服')
-          console.log(err)
+          // console.log(err)
         })
       }
     },
@@ -98,10 +102,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.mine_indu{
+.mine_feild{
   width: 100%;
   padding-top: 5rem;
-  .indu_con{
+  .feild_con{
     width: $tem-width;
     margin:0 auto;
     ul{
@@ -109,8 +113,9 @@ export default {
       display: flex;
       flex-wrap: wrap;
       li{
-        padding-left: .4rem;
-        padding-right: .4rem;
+        // width: 5rem;
+        padding-left:.4rem;
+        padding-right:.4rem;
         height: 3rem;
         text-align: center;
         border-radius: 5px;

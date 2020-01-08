@@ -8,8 +8,8 @@
           <img src="../../static/img/dont.jpg" alt="" @click="goLogin()"/>
         </p>
         <ul class="list_toute">
-          <li>昵称:  海绵宝宝</li>
-          <li>手机号:  18888888888</li>
+          <li>昵称:  {{userName}}</li>
+          <li>手机号:  {{userPhone}}</li>
           <li @click="goLogin()">个人信息>></li>
           <router-link to="/minePro" tag="li">我的接单>></router-link>
           <router-link to="/mineMessages" tag="li">我的消息>></router-link>
@@ -26,12 +26,24 @@ export default {
   data(){
     return{
       show:false,
+      userName:null,//用户昵称
+      userPhone:null,//用户手机号
     }
   },
   computed:{
-    ...mapState(['token'])
+    ...mapState(['token','userMes'])
+  },
+  created(){
+    if(this.userMes.ictEngineerVO!=null){
+      this.userName=this.userMes.ictEngineerVO.name;
+      this.userPhone=this.userMes.ictEngineerVO.phone;
+    }else{
+      this.userName='未登录';
+      this.userPhone='未登录';
+    }
   },
   methods:{
+    ...mapMutations(['userMes_fn','token_fn']),
     goLogin(){//登录
       if(this.token!=null){
         this.$router.push('/mine')
@@ -40,7 +52,19 @@ export default {
       }
     },
     outLogin(){//退出登录
-
+      this.userMes_fn(null);
+      this.token_fn(null);
+      this.$toast.loading({
+        message: '注销中...',
+        forbidClick: true,
+        loadingType: 'spinner'
+      });
+      setTimeout(()=>{
+        this.$toast('注销成功');
+        this.show=false;
+        this.userName='未登录';
+        this.userPhone='未登录';
+      },2000)
     },
   }
 }

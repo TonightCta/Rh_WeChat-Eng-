@@ -15,16 +15,24 @@
             class="pro_list"
           >
             <van-cell  v-for="(pro,indexPro) in proList" :key="indexPro" class="list_con" @click="mineDetails(indexPro)">
-              <span class="pro_name">{{pro.name}}</span><br>
+              <span class="pro_name">{{pro.ictDemandVO.projectName}}</span><br>
               <van-icon name="location" />
-              <span class="pro_address pro_public">{{pro.place}}</span><br>
-              <span class="pro_date pro_public">执行时间:{{pro.beginTime}}至{{pro.endTime}}</span>
-              <span class="pro_count">￥{{pro.count}}</span>
+              <span class="pro_address pro_public">{{pro.ictDemandVO.address}}</span><br>
+              <span class="pro_date pro_public">执行时间:&nbsp;{{pro.ictDemandVO.startTime}}至{{pro.ictDemandVO.createTime}}</span>
+              <!--  -->
+              <span class="pro_count">￥{{parseInt(pro.ictDemandVO.maxBudget)}}</span>
               <span class="pro_status">
-                <van-button round type="info" size="small" color="#404040" v-if="pro.state==2">未交付</van-button>
+                <!--
                 <span v-if="pro.state==4" class="public_tate" style="color:#666;">已完成</span>
                 <span v-if="pro.state==1" class="public_tate" style="color:red;">进行中</span>
-                <span v-if="pro.state==3" class="public_tate" style="color:#ccc;">已申请</span>
+                <span v-if="pro.state==0" class="public_tate" style="color:#ccc;">已申请</span> -->
+                <p v-if="pro.state==0" style="color:#999;">已申请</p>
+                <p v-if="pro.ictDemandVO.state==3" style="color:#666;">已完成</p>
+                <p v-if="pro.ictDemandVO.state==4" style="color:#C93625;">已付款</p>
+                <p v-if="pro.choose!=null">
+                  <van-button round type="info" size="small" color="#404040" v-if="pro.choose">未交付</van-button>
+                  <span v-else style="color:#666;">未入选</span>
+                </p>
               </span>
             </van-cell>
           </van-list>
@@ -35,55 +43,36 @@
 </template>
 
 <script>
-import {mapMutations} from 'vuex'
+import {mapMutations,mapState} from 'vuex'
 import WorkHeader from '@/components/work_header'
 export default {
   data(){
     return{
-      tableList:['全部','已申请','进行中','未交付','已确认'],
+      tableList:['全部','未开工','未交付','已确认'],
       count: 0,
       isLoading: false,
       loading: false,
       finished: false,
       proList:[
         {
-          name:'北京XX集团视频监控项目',
-          place:'北京  东城',
-          beginTime:'2019-09-08',
-          endTime:'2019-12-28',
-          count:20001,
-          state:1,
-          code:'联调割接'
-        },
-        {
-          name:'山东集团有限公司',
-          place:'山东  聊城',
-          beginTime:'2019-09-08',
-          endTime:'2019-12-28',
-          count:16850,
-          state:3,
-          code:'进场开工'
-        },
-        {
-          name:'天津项目',
-          place:'天津  滨海新区',
-          beginTime:'2019-09-08',
-          endTime:'2019-12-28',
-          count:78000,
-          state:4,
-          code:'驻场维护'
-        },
-        {
-          name:'济南控股有限公司',
-          place:'济南  区',
-          beginTime:'2019-09-08',
-          endTime:'2019-12-28',
-          count:6988,
-          state:2,
-          code:'加电单调'
+          ictDemandVO:{
+            projectName:'北京XX集团视频监控项目',
+            place:'北京  东城',
+            beginTime:'2019-09-08',
+            endTime:'2019-12-28',
+            count:20001,
+            state:1,
+            code:'联调割接'
+          }
         },
       ],
     }
+  },
+  computed:{
+    ...mapState(['userMes','token'])
+  },
+  created(){
+    this.getOrderList()
   },
   components:{WorkHeader},
   methods:{
@@ -107,6 +96,20 @@ export default {
       this.proMes_fn(this.proList[index])
       this.$router.push({
         name:'MineProDe'
+      })
+    },
+    getOrderList(){//获取接单列表
+      let _this=this;
+      console.log(_this.userMes)
+      let formdata=new FormData();
+      formdata.append('engineerId',_this.userMes.ictEngineerVO.id);
+      _this.$axios.post(_this.url+'/ict/applyRecord/findListByCondition',formdata,{headers:{
+        'Authorization':_this.token
+      }}).then((res)=>{
+        console.log(res);
+        if(res.data.code==0){
+          _this.proList=res.data.data.content;
+        }
       })
     }
   }

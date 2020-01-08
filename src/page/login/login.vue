@@ -5,7 +5,7 @@
       <p>登录</p>
     </LoginHeader>
     <div class="login_con">
-      <van-tabs v-model="active">
+      <!-- <van-tabs v-model="active">
         <van-tab title="短信登录">
           <div class="code_login public_login">
             <p>
@@ -22,24 +22,25 @@
           </div>
         </van-tab>
         <van-tab title="密码登录">
-          <div class="pass_login public_login">
-            <p>
-              <input type="number" name="" value="" placeholder="请输入手机号" v-model="userPhone">
-            </p>
-            <p>
-              <input type="password" name="" value="" placeholder="请输入密码" v-model="userPass">
-            </p>
-            <p class="pass_forget">
-              <router-link to="/passForget" tag="span">忘记密码?</router-link>
-            </p>
-            <p>
-              <button type="button" name="button" @click="loginPass()">快速登录</button>
-            </p>
-            <router-link to="/register" tag="p" class="register_text">注册</router-link>
-            <!-- <p class="register_text">注册</p> -->
-          </div>
+
         </van-tab>
-      </van-tabs>
+      </van-tabs> -->
+      <div class="pass_login public_login">
+        <p>
+          <input type="number" name="" value="" placeholder="请输入手机号" v-model="userPhone">
+        </p>
+        <p>
+          <input type="password" name="" value="" placeholder="请输入密码" v-model="userPass">
+        </p>
+        <p class="pass_forget">
+          <router-link to="/passForget" tag="span">忘记密码?</router-link>
+        </p>
+        <p>
+          <button type="button" name="button" @click="loginPass()">快速登录</button>
+        </p>
+        <router-link to="/register" tag="p" class="register_text">注册</router-link>
+        <!-- <p class="register_text">注册</p> -->
+      </div>
     </div>
   </div>
 </template>
@@ -64,7 +65,7 @@ export default {
     }
   },
   methods:{
-    ...mapMutations(['token_fn']),
+    ...mapMutations(['token_fn','userMes_fn']),
     sendCode(){//发送验证码
         if(this.codePhone==null||this.codePhone==''){
           this.$toast('请输入手机号')
@@ -110,7 +111,7 @@ export default {
           })
         }
     },
-    loginCode(){//
+    loginCode(){//验证码登录
       let _this=this;
       if(_this.codePhone==null||_this.codePhone==''){
         _this.$toast('请输入手机号')
@@ -127,6 +128,7 @@ export default {
           if(res.data.code==0){
             _this.$toast('登录成功')
             _this.token_fn(res.data.data.token)
+            _this.userMes_fn(res.data.data)
             _this.$router.push('/')
           }else{
             _this.$toast(res.data.msg)
@@ -150,8 +152,10 @@ export default {
         formdata.append('password',_this.userPass);
         _this.$axios.post(_this.url+'/ict/operator/login_name',formdata).then((res)=>{
           if(res.data.code==0){
+            console.log(res)
             _this.$toast('登录成功')
             _this.token_fn(res.data.data.token)
+            _this.userMes_fn(res.data.data.ictOperatorVO)
             _this.$router.push('/')
           }else{
             _this.$toast(res.data.msg)
@@ -219,6 +223,7 @@ export default {
   .pass_login{
     p{
       width: 100%;
+      margin-top: .5rem;
       input{
         width: 100%;
         height: 4rem;

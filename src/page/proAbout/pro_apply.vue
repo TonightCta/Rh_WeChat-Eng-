@@ -39,7 +39,7 @@
 
 <script>
 import WorkHeader from '@/components/work_header'
-// import {Dialog} from 'vant'
+import {mapState} from 'vuex'
 export default {
   data(){
     return{
@@ -50,6 +50,9 @@ export default {
       isAgain:2,
     }
   },
+  computed:{
+    ...mapState(['token','proMesV'])
+  },
   methods:{
     turnLoca(file){//选择文件
       console.log(file);
@@ -59,14 +62,27 @@ export default {
       this.mustKnow=true;
     },
     turnSub(){//提交申请
-      this.$dialog.alert({
-        message: '申请提交成功,等待平台审核！上传资质认证及相关证书提高成功率吧',
-        confirmButtonColor:'#C93625',
-        showCancelButton:true,
-      }).then(()=>{
-        // alert(1)
-      }).catch(()=>{
-        // alert(2)/
+      let _this=this;
+      let formdata=new FormData();
+      formdata.append('demandId',_this.proMesV.id);
+      _this.$axios.post(_this.url+'/ict/applyRecord/apply',formdata,{headers:{
+        'Authorization':_this.token
+      }}).then((res)=>{
+        if(res.data.code==0){
+          _this.$dialog.alert({
+            message: '申请提交成功,等待平台审核！上传资质认证及相关证书提高成功率吧',
+            confirmButtonColor:'#C93625',
+            showCancelButton:true,
+          }).then(()=>{
+            _this.$router.push('/mineAuth')
+          }).catch(()=>{
+            _this.$router.push('/')
+          })
+        }else{
+          _this.$toast(res.data.msg)
+        }
+      }).catch((err)=>{
+        _this.$toast('未知错误,请联系客服')
       })
     },
   },

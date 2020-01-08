@@ -11,11 +11,11 @@
             class="pro_list"
           >
             <van-cell  v-for="(pro,indexPro) in proList" :key="indexPro" class="list_con">
-              <span class="pro_name">{{pro.name}}</span><br>
+              <span class="pro_name">{{pro.projectName}}</span><br>
               <van-icon name="location" />
-              <span class="pro_address pro_public">{{pro.place}}</span><br>
-              <span class="pro_date pro_public">执行时间:{{pro.beginTime}}至{{pro.endTime}}</span>
-              <span class="pro_count">￥{{pro.count}}</span>
+              <span class="pro_address pro_public">{{pro.address}}</span><br>
+              <span class="pro_date pro_public">执行时间:{{pro.startTime}}至{{pro.createTime}}</span>
+              <span class="pro_count">￥{{parseInt(pro.maxBudget)}}</span>
               <span class="pro_status">
                 <van-button round type="info" size="small" color="#404040" @click="proApply(indexPro)">立即申请</van-button>
               </span>
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import {mapMutations} from 'vuex'
+import {mapMutations,mapState} from 'vuex'
 export default {
   data(){
     return{
@@ -84,7 +84,14 @@ export default {
           code:'硬件安装'
         }
       ],
+      page:0,
     }
+  },
+  computed:{
+    ...mapState(['token'])
+  },
+  mounted(){
+    this.getProList()
   },
   methods:{
     ...mapMutations(['proMes_fn']),
@@ -104,11 +111,34 @@ export default {
        }, 500);
     },
     proApply(indexPro){
-      this.proMes_fn(this.proList[indexPro])
-      this.$router.push({
-        name:'ProDetials'
-      })
+      if(this.token==null||this.token==''){
+        this.$toast('您还未登录, 请您进行登录')
+      }else{
+        this.proMes_fn(this.proList[indexPro])
+        this.$router.push({
+          name:'ProDetials'
+        })
+      }
     },
+    getProList(){
+      let _this=this;
+      let formdata=new FormData();
+      formdata.append('page',_this.page);
+      _this.$axios.post(_this.url+'/ict/public/demand/findListByCondition',formdata,{
+        headers:{
+          'Authorization':_this.token
+        }
+      }).then((res)=>{
+        console.log(res);
+        if(res.data.code==0){
+          _this.proList=res.data.data.content;
+        }else{
+          _this.$toast(res.data.msg)
+        }
+      }).catch((err)=>{
+        _this.$toast('获取数据异常,请联系客服')
+      })
+    }
   }
 }
 </script>
@@ -142,7 +172,10 @@ export default {
       right:.5rem;
     }
     .pro_status{
-      margin-left: 2.5rem;
+      position: absolute;
+      right:.2rem;
+      bottom:.6rem;
+      // margin-left: 3rem;
     }
   }
 }

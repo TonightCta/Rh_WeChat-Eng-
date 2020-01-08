@@ -13,7 +13,7 @@
       <ul>
         <router-link to="/mineCard" tag="li">
           实名认证
-            <span class="public_text">已认证</span>
+            <span class="public_text">{{engCardText}}</span>
             <span class="public_text icon">
               <van-icon name="arrow" size="22"/>
             </span>
@@ -32,16 +32,17 @@
               <van-icon name="arrow" size="22"/>
             </span>
         </router-link>
-        <router-link to="/engAuth" tag="li">
+        <li>
           工程师认证
-            <span class="public_text">未认证</span>
+            <span class="public_text">{{engAuthText}}</span>
+            <router-link to="/engAuth" tag="span" class="stopMask" v-if="stopMask"></router-link>
             <span class="public_text icon">
               <van-icon name="arrow" size="22"/>
             </span>
-        </router-link>
-        <router-link to="/mineFeild" tag="li">
+        </li>
+        <router-link to="/mineFirstFeild" tag="li">
           擅长领域
-            <span class="public_text" style="color:#C93625;">添加</span>
+            <span class="public_text" style="color:#C93625;">{{userMes.ictEngineerVO.industry}}</span>
         </router-link>
       </ul>
     </div>
@@ -50,8 +51,35 @@
 
 <script>
 import WorkHeader from '@/components/work_header'
+import {mapState} from 'vuex'
 export default {
-  components:{WorkHeader}
+  data(){
+    return{
+      engAuthText:'未认证',//工程师认证状态
+      stopMask:false,//根据状态进入认证界面
+      engCardText:'未认证',//实名认证状态
+    }
+  },
+  components:{WorkHeader},
+  computed:{
+    ...mapState(['userMes'])
+  },
+  created(){
+    if(this.userMes.ictEngineerVO.state==0){
+      this.engAuthText='未认证'
+      this.stopMask=true;
+    }else if(this.userMes.ictEngineerVO.state==-1){
+      this.engAuthText='认证驳回'
+      this.stopMask=true;
+    }else if(this.userMes.ictEngineerVO.state==1){
+      this.engAuthText='已申请';
+    }else if(this.userMes.ictEngineerVO.state==2){
+      this.engAuthText='已认证'
+    };
+    if(this.userMes.ictEngineerVO.idCard!=null){
+      this.engCardText='已认证'
+    }
+  },
 }
 </script>
 
@@ -85,6 +113,15 @@ export default {
           top:.6rem;
           right: 1rem;
         }
+      }
+      .stopMask{
+        position: absolute;
+        background: red;
+        width: 100%;
+        height: 100%;
+        top:0;
+        left: 0;
+        opacity: 0;
       }
     }
     p{

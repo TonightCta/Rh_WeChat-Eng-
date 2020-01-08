@@ -6,15 +6,18 @@
     </WorkHeader>
     <div class="type_con">
       <ul>
-        <li v-for="(filed,indexFe) in felidList" ref="feildDom" @click="choseFeild(indexFe)">
-          <span ref="feildBack" @click.stop="backFeild(indexFe)"></span>
+        <li v-for="(filed,indexFe) in typeList" ref="typeDom" @click="choseFeild(indexFe)">
+          <span ref="typeBack" @click.stop="backFeild(indexFe)"></span>
           {{filed}}</li>
       </ul>
       <p class="manual_add">
         <input type="text" name="" value="" placeholder="自行添加服务类型" v-model="manualText">
-        <button type="button" name="button" v-show="isText">确定</button>
+        <button type="button" name="button" v-show="isText" @click="addType()">确定</button>
       </p>
     </div>
+    <p class="saveBtn">
+      <button type="button" name="button" @click="saveType()">保存</button>
+    </p>
   </div>
 </template>
 
@@ -24,22 +27,44 @@ export default {
   components:{WorkHeader},
   data(){
     return{
-      felidList:['待定','待定','待定'],
+      typeList:['故障处理','安装调试','设备巡检','售前支持','信息化管理软件','咨询服务','视频监控','其他'],
       manualText:null,//自编辑技能
       isText:false,//添加按钮
+      turnList:[],//需求类型列表
+      typeText:null,//需求类型文本
     }
   },
   methods:{
-    choseFeild(index){
-      this.$refs.feildDom[index].style.background="#C93625"
-      this.$refs.feildDom[index].style.color="white";
-      this.$refs.feildBack[index].style.display="block";
+    choseFeild(index){//选中需求类型
+      this.$refs.typeDom[index].style.background="#C93625"
+      this.$refs.typeDom[index].style.color="white";
+      this.$refs.typeBack[index].style.display="block";
+      this.turnList.push(this.typeList[index]);
+      console.log(this.turnList)
     },
-    backFeild(index){
-      this.$refs.feildDom[index].style.background="white";
-      this.$refs.feildDom[index].style.color="black";
-      this.$refs.feildBack[index].style.display="none";
-    }
+    backFeild(index){//取消选择
+      this.$refs.typeDom[index].style.background="white";
+      this.$refs.typeDom[index].style.color="black";
+      this.$refs.typeBack[index].style.display="none";
+      this.turnList.splice(this.turnList.indexOf(this.typeList[index]),1)
+      console.log(this.turnList)
+    },
+    addType(){//自定义需求类型
+      this.typeList.push(this.manualText);
+      this.manualText=null;
+    },
+    saveType(){//保存选择
+      if(this.turnList.length<5){
+        this.$toast('请选择至少五项服务类型')
+      }else{
+        this.$router.push({
+          name:'EngAuth',
+          params:{
+            typeText:this.turnList.join('/')
+          }
+        })
+      }
+    },
   },
   watch:{
     manualText(val,old){
@@ -65,7 +90,8 @@ export default {
       display: flex;
       flex-wrap: wrap;
       li{
-        width: 5rem;
+        padding-left: .4rem;
+        padding-right: .4rem;
         height: 3rem;
         text-align: center;
         border-radius: 5px;
@@ -111,6 +137,21 @@ export default {
         right:.5rem;
         top:1rem;
       }
+    }
+  }
+  .saveBtn{
+    position: fixed;
+    width: 100%;
+    padding-bottom: 1rem;
+    text-align: center;
+    bottom:0;
+    button{
+      width:$tem-width;
+      background: $btn-color;
+      color:white;
+      height: 3.5rem;
+      font-size: 1.5rem;
+      border-radius: 20px;
     }
   }
 }

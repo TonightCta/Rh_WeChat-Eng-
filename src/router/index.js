@@ -88,6 +88,11 @@ const router=new Router({
       component:resolve=>require(['@/page/mine/mineAuth'],resolve)
     },
     {
+      path:'/mineFirstFeild',//外层擅长领域
+      name:'MineFirstFeild',
+      component:resolve=>require(['@/page/mine/mineFirstFeild'],resolve)
+    },
+    {
       path:'/mineFeild',//擅长领域
       name:'MineFeild',
       component:resolve=>require(['@/page/mine/mineFeild'],resolve)
