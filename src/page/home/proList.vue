@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="pro_list">
-    <van-tabs>
-      <van-tab v-for="index in tableList" :title="index" :key="index" title-active-color="red">
+    <van-tabs @click="changeData" title-active-color="#C93625" color="#C93625">
+      <van-tab v-for="index in tableList" :title="index" :key="index" sticky>
         <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
           <van-list
             v-model="loading"
@@ -13,7 +13,7 @@
             <van-cell  v-for="(pro,indexPro) in proList" :key="indexPro" class="list_con">
               <span class="pro_name">{{pro.projectName}}</span><br>
               <van-icon name="location" />
-              <span class="pro_address pro_public">{{pro.address}}</span><br>
+              <span class="pro_address pro_public">{{pro.place}}</span><br>
               <span class="pro_date pro_public">执行时间:{{pro.startTime}}至{{pro.createTime}}</span>
               <span class="pro_count">￥{{parseInt(pro.maxBudget)}}</span>
               <span class="pro_status">
@@ -32,7 +32,7 @@ import {mapMutations,mapState} from 'vuex'
 export default {
   data(){
     return{
-      tableList:['推荐','数据通信','IT实施','视频监控','UC&C','HCIE'],
+      tableList:['推荐','故障处理','安装调试','设备巡检','售前支持','信息化管理','咨询服务','视频监控'],
       count: 0,
       isLoading: false,
       loading: false,
@@ -47,42 +47,6 @@ export default {
           state:1,
           code:'联调割接'
         },
-        {
-          name:'山东集团有限公司',
-          place:'山东  聊城',
-          beginTime:'2019-09-08',
-          endTime:'2019-12-28',
-          count:16850,
-          state:3,
-          code:'进场开工'
-        },
-        {
-          name:'天津项目',
-          place:'天津  滨海新区',
-          beginTime:'2019-09-08',
-          endTime:'2019-12-28',
-          count:78000,
-          state:4,
-          code:'驻场维护'
-        },
-        {
-          name:'济南控股有限公司',
-          place:'济南  区',
-          beginTime:'2019-09-08',
-          endTime:'2019-12-28',
-          count:6988,
-          state:2,
-          code:'加电单调'
-        },
-        {
-          name:'北京XX集团视频监控项目',
-          place:'北京  东城',
-          beginTime:'2019-09-08',
-          endTime:'2019-12-28',
-          count:20001,
-          state:2,
-          code:'硬件安装'
-        }
       ],
       page:0,
     }
@@ -120,16 +84,19 @@ export default {
         })
       }
     },
-    getProList(){
+    getProList(type){
       let _this=this;
       let formdata=new FormData();
       formdata.append('page',_this.page);
+      if(type!=undefined&&type!=='推荐'){
+        formdata.append('type',type);
+      }
       _this.$axios.post(_this.url+'/ict/public/demand/findListByCondition',formdata,{
         headers:{
           'Authorization':_this.token
         }
       }).then((res)=>{
-        console.log(res);
+        // console.log(res);
         if(res.data.code==0){
           _this.proList=res.data.data.content;
         }else{
@@ -138,6 +105,11 @@ export default {
       }).catch((err)=>{
         _this.$toast('获取数据异常,请联系客服')
       })
+    },
+    changeData(name,title){
+      this.getProList(title);
+      this.onLoad()
+      // console.log(title)
     }
   }
 }

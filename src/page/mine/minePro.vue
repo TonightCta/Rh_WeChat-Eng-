@@ -4,8 +4,8 @@
     <WorkHeader>
       <p>我的接单</p>
     </WorkHeader>
-    <van-tabs>
-      <van-tab v-for="index in tableList" :title="index" :key="index" title-active-color="red">
+    <van-tabs  title-active-color="#C93625" color="#C93625" @click="changeState">
+      <van-tab v-for="index in tableList" :title="index" :key="index">
         <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
           <van-list
             v-model="loading"
@@ -48,7 +48,7 @@ import WorkHeader from '@/components/work_header'
 export default {
   data(){
     return{
-      tableList:['全部','未开工','未交付','已确认'],
+      tableList:['全部','已申请','未交付','已交付','已完成'],
       count: 0,
       isLoading: false,
       loading: false,
@@ -109,9 +109,17 @@ export default {
         console.log(res);
         if(res.data.code==0){
           _this.proList=res.data.data.content;
+        }else {
+          _this.$toast(res.data.msg)
         }
+      }).catch((err)=>{
+        _this.$toast('未知错误,请联系客服')
       })
-    }
+    },
+    changeState(name,title){
+      console.log(title)
+      console.log(name)
+    },
   }
 }
 </script>

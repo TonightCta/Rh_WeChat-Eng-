@@ -31,6 +31,12 @@
                 <van-icon name="arrow" size="22" />
               </span>
           </router-link>
+          <!-- <router-link to="/authInfo" tag="li" v-if="userMes.ictEngineerVO.state==1||userMes.ictEngineerVO.state==2">
+            认证信息&nbsp;
+              <span class="right_oper icon">
+                <van-icon name="arrow" size="22" />
+              </span>
+          </router-link> -->
           <li>我的信用分:&nbsp;
             <span class="right_oper">100</span>
           </li>
@@ -69,7 +75,11 @@ export default {
     this.engPhone=this.userMes.mobile;
     this.nickName=this.userMes.ictEngineerVO.name;
     this.feildText=this.userMes.ictEngineerVO.expert;
-    this.induText=this.userMes.ictEngineerVO.industry
+    if(this.userMes.ictEngineerVO.industry!=null){
+      this.induText=this.userMes.ictEngineerVO.industry;
+    }else{
+      this.induText='-'
+    }
   },
   methods:{
     ...mapMutations(['userMes_fn']),
@@ -170,6 +180,7 @@ export default {
       overflow: hidden;
       ul{
         li{
+          height: 7rem;
           line-height: 7rem;
           box-sizing: border-box;
           padding-left: 1rem;

@@ -38,7 +38,9 @@ export default {
     ...mapState(['userMes','token'])
   },
   mounted(){
-    this.InduList=this.userMes.ictEngineerVO.industry.split('/');
+    if(this.userMes.ictEngineerVO.industry!=null){
+      this.InduList=this.userMes.ictEngineerVO.industry.split('/');
+    }
     for(let i in this.InduList){
       this.$refs.feildDom[this.felidList.indexOf(this.InduList[i])].style.background="#C93625";
       this.$refs.feildDom[this.felidList.indexOf(this.InduList[i])].style.color="white";

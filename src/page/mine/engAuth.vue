@@ -41,7 +41,7 @@
           :items="placeList"
           :active-id.sync="cityList"
           :main-active-index.sync="activeIndex"
-          @click-item="choseCity"
+          :click-item="choseCity"
         />
       </van-popup>
     </div>
@@ -60,7 +60,7 @@
           :items="placeList"
           :active-id.sync="workList"
           :main-active-index.sync="activeIndex"
-          @click-item="choseWork"
+          :click-item="choseWork"
         />
       </van-popup>
     </div>
@@ -83,7 +83,7 @@ export default {
       placeChose:false,//地址选择
       placeList:[],//地点列表
       workChose:false,//服务区域选择
-      workList:[],//服务区域列表
+      workList:['北京市','邯郸市','天津市','郑州市','秦皇岛市'],//服务区域列表
       upMes:{
         cityText:null,//所在地区文本
         workText:null,//服务区域文本
@@ -141,7 +141,7 @@ export default {
     },
     turnWork(){//确认选中服务区域
       this.workChose=false;
-      if(this.workList.length>0&&this.workList.length>5){
+      if(this.workList.length>0&&this.workList.length>4){
         this.upMes.workText=this.workList.join(',');
       }else{
         this.$toast('请选择至少五项服务区域')

@@ -2,13 +2,13 @@
 <template lang="html">
   <div class="mine_auth">
     <WorkHeader>
-      <p>我的认证</p>
+      <p>资料信息</p>
     </WorkHeader>
     <div class="auth_con">
       <p class="mine_level">平台一级工程师</p>
       <p class="mine_mes">
-        <span>项目完成数量:&nbsp;8</span>
-        <span>信用值:&nbsp;1000</span>
+        <span>项目完成数量:&nbsp;0</span>
+        <span>信用值:&nbsp;0</span>
       </p>
       <ul>
         <router-link to="/mineCard" tag="li">
@@ -18,20 +18,20 @@
               <van-icon name="arrow" size="22"/>
             </span>
         </router-link>
-        <router-link to="/skillList" tag="li">
-          技能认证
-            <span class="public_text">未认证</span>
+        <router-link to="/authInfo" tag="li" v-if="userMes.ictEngineerVO.state==1||userMes.ictEngineerVO.state==2">
+          认证信息
+            <!-- <span class="public_text">未认证</span> -->
             <span class="public_text icon">
               <van-icon name="arrow" size="22"/>
             </span>
         </router-link>
-        <router-link to="/alipayAuth" tag="li">
+        <!-- <router-link to="/alipayAuth" tag="li">
           支付宝认证
             <span class="public_text">未认证</span>
             <span class="public_text icon">
               <van-icon name="arrow" size="22"/>
             </span>
-        </router-link>
+        </router-link> -->
         <li>
           工程师认证
             <span class="public_text">{{engAuthText}}</span>
@@ -40,10 +40,10 @@
               <van-icon name="arrow" size="22"/>
             </span>
         </li>
-        <router-link to="/mineFirstFeild" tag="li">
+        <!-- <router-link to="/mineFirstFeild" tag="li">
           擅长领域
             <span class="public_text" style="color:#C93625;">{{userMes.ictEngineerVO.industry}}</span>
-        </router-link>
+        </router-link> -->
       </ul>
     </div>
   </div>

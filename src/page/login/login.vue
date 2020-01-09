@@ -140,13 +140,13 @@ export default {
     },
     loginPass(){//密码登录
       let _this=this;
-      if(_this.userPhone==null||_this.userPhone==''){
-        _this.$toast('请输入您的手机号')
-      }else if(!(/^1[3456789]\d{9}$/.test(_this.userPhone))){
-        _this.$toast('请输入正确的手机号')
-      }else if(_this.userPass==null||_this.userPass==''){
-        _this.$toast('请输入您的密码')
-      }else{
+      // if(_this.userPhone==null||_this.userPhone==''){
+      //   _this.$toast('请输入您的手机号')
+      // }else if(!(/^1[3456789]\d{9}$/.test(_this.userPhone))){
+      //   _this.$toast('请输入正确的手机号')
+      // }else if(_this.userPass==null||_this.userPass==''){
+      //   _this.$toast('请输入您的密码')
+      // }else{
         let formdata=new FormData();
         formdata.append('name',_this.userPhone)
         formdata.append('password',_this.userPass);
@@ -163,7 +163,7 @@ export default {
         }).catch((err)=>{
           _this.$toast('未知错误,请联系客服')
         })
-      }
+      // }
     },
   }
 }

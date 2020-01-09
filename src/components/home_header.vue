@@ -11,7 +11,8 @@
           <li>昵称:  {{userName}}</li>
           <li>手机号:  {{userPhone}}</li>
           <li @click="goLogin()">个人信息>></li>
-          <router-link to="/minePro" tag="li">我的接单>></router-link>
+          <li @click="goOrder()">我的接单>></li>
+          <!-- <router-link to="/minePro" tag="li">我的接单>></router-link> -->
           <router-link to="/mineMessages" tag="li">我的消息>></router-link>
           <li @click="outLogin()">退出登录>></li>
         </ul>
@@ -49,6 +50,13 @@ export default {
         this.$router.push('/mine')
       }else{
         this.$router.push('/login')
+      }
+    },
+    goOrder(){//我的接单
+      if(this.token!=null){
+        this.$router.push('/minePro')
+      }else{
+        this.$toast('请先登录')
       }
     },
     outLogin(){//退出登录

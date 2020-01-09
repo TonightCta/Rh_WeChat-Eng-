@@ -51,7 +51,8 @@ export default {
         formdata.append('serviceType',_this.engAuth.typeText)
         formdata.append('receivingPlace',_this.engAuth.workText);
         let formdataCer=new FormData();
-        // formdataCer.append('name',)
+        formdataCer.append('name',_this.cerName)
+        formdataCer.append('industry',_this.cerType)
         _this.fileList.forEach((e)=>{
           formdataCer.append('files',e.file)
         })
@@ -60,15 +61,24 @@ export default {
             'Authorization':_this.token
           }
         }).then((res)=>{
+          let formdataT=new FormData();
+
           if(res.data.code==0){
-            _this.$axios.post(_this.url+'/ict/engineer/saveCertificate',formdata,{
+            _this.$axios.post(_this.url+'/ict/engineer/saveCertificate',formdataCer,{
               headers:{
                 'Authorization':_this.token
               }
             }).then((res)=>{
-              console.log(res)
+              // console.log(res);
+              if(res.data.code==0){
+                _this.$toast('您的认证信息已提交,请耐心等待系统审核');
+                _this.$router.push('/mine')
+              }else{
+                _this.$toast(res.data.msg)
+              }
             }).catch((err)=>{
-              console.log(err)
+              _this.$toast('未知错误,请联系客服')
+              // console.log(err)
             })
           }else{
             _this.$toast(res.data.msg)
@@ -100,6 +110,7 @@ export default {
         box-sizing: border-box;
         border-radius: 8px;
         padding-left: 1rem;
+        font-size: 1.5rem;
         input{
           font-size: 1.4rem;
           margin-top: .2rem;
