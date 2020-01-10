@@ -157,6 +157,7 @@ export default {
         input{
           width: 100%;
           height: 3rem;
+          line-height: 3rem;
           border-bottom:1px solid #ccc;
           position: absolute;
           left:4.5rem;

@@ -32,8 +32,12 @@
         <p>
           <input type="password" name="" value="" placeholder="请输入密码" v-model="userPass">
         </p>
+        <p style="display:flex;">
+          <input type="number" name="" value="" placeholder="请输入验证码" class="code_inp" v-model="msgcode">
+          <SIdentify :identifyCode="picCode" @click.native="refreshCode()"></SIdentify>
+        </p>
         <p class="pass_forget">
-          <router-link to="/passForget" tag="span">忘记密码?</router-link>
+          <!-- <router-link to="/passForget" tag="span">忘记密码?</router-link> -->
         </p>
         <p>
           <button type="button" name="button" @click="loginPass()">快速登录</button>
@@ -47,9 +51,10 @@
 
 <script>
 import LoginHeader from '@/components/login_header'
+import SIdentify from '@/components/picCode'
 import {mapMutations} from 'vuex'
 export default {
-  components:{LoginHeader},
+  components:{LoginHeader,SIdentify},
   data(){
     return{
       active:1,
@@ -62,6 +67,7 @@ export default {
       codePhone:null,//验证码登录手机号
       msgcode:null,//短信验证码
       phoneCode:null,//回执验证码
+      picCode:String(Math.round(9000*Math.random()+1000))
     }
   },
   methods:{
@@ -138,15 +144,25 @@ export default {
         })
       }
     },
+    refreshCode(){//刷新验证码
+      let Num=null;
+      Num+=Math.round(9000*Math.random()+1000);
+      this.picCode=String(Num);
+    },
     loginPass(){//密码登录
       let _this=this;
-      // if(_this.userPhone==null||_this.userPhone==''){
-      //   _this.$toast('请输入您的手机号')
-      // }else if(!(/^1[3456789]\d{9}$/.test(_this.userPhone))){
-      //   _this.$toast('请输入正确的手机号')
-      // }else if(_this.userPass==null||_this.userPass==''){
-      //   _this.$toast('请输入您的密码')
-      // }else{
+      if(_this.userPhone==null||_this.userPhone==''){
+        _this.$toast('请输入您的手机号')
+      }else if(!(/^1[3456789]\d{9}$/.test(_this.userPhone))){
+        _this.$toast('请输入正确的手机号')
+      }else if(_this.userPass==null||_this.userPass==''){
+        _this.$toast('请输入您的密码')
+      }else if(_this.msgcode==null||_this.msgcode==''){
+        _this.$toast('请输入图形验证码')
+      }else if(String(_this.msgcode)!==_this.picCode){
+        _this.$toast('您输入的验证码有误')
+      }else{
+        console.log(this.picCode)
         let formdata=new FormData();
         formdata.append('name',_this.userPhone)
         formdata.append('password',_this.userPass);
@@ -158,12 +174,14 @@ export default {
             _this.userMes_fn(res.data.data.ictOperatorVO)
             _this.$router.push('/')
           }else{
+            _this.refreshCode()
             _this.$toast(res.data.msg)
           }
         }).catch((err)=>{
+          _this.refreshCode()
           _this.$toast('未知错误,请联系客服')
         })
-      // }
+      }
     },
   }
 }

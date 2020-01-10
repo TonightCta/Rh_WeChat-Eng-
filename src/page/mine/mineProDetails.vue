@@ -16,22 +16,22 @@
         </p>
       </div>
       <div class="" style="marginBottom:1rem;borderBottom:12px solid #eee;boxSizing:border-box;paddingLeft:1rem;">
-        <van-steps direction="vertical" :active="proMes.state" active-color="#C93625">
+        <van-steps direction="vertical" :active="proMes.ictDemandVO.state" active-color="#C93625">
           <van-step>
             <p>提交申请,等待审核</p>
-            <p>{{proMes.applyTime}}</p>
+            <p>{{proMes.ictDemandVO.startTime}}</p>
           </van-step>
           <van-step>
             <p>接单成功</p>
-            <p v-if="proMes.chooseTime!=null">{{proMes.chooseTime}}</p>
+            <p v-if="proMes.ictDemandVO.approveTime!=null">{{proMes.ictDemandVO.approveTime}}</p>
           </van-step>
           <van-step>
             <p>等待交付</p>
-            <p>2016-07-10 09:30</p>
+            <p v-if="proMes.ictDemandVO.workTime!=null">{{proMes.ictDemandVO.workTime}}</p>
           </van-step>
           <van-step>
             <p>等待付款</p>
-            <p>2016-07-10 09:30</p>
+            <p v-if="proMes.ictDemandVO.payTime!=null"> {{proMes.ictDemandVO.payTime}}</p>
           </van-step>
         </van-steps>
       </div>
@@ -51,7 +51,8 @@
     <div class="pro_state">
       <p v-if="proMes.state==0" style="color:#999;">已申请</p>
       <p v-if="proMes.ictDemandVO.state==3" style="color:#666;">已完成</p>
-      <p v-if="proMes.ictDemandVO.state==4" style="color:#C93625;">已付款</p>
+      <p v-if="proMes.ictDemandVO.state==4" style="color:#C93625;">已完工</p>
+      <p v-if="proMes.ictDemandVO.state==5" style="color:#C93625;">已付款</p>
       <p v-if="proMes.choose!=null">
         <button type="button" name="button" @click="liverPro()" v-if="proMes.choose">立即交付</button>
         <span v-else style="color:#666;">未入选</span>

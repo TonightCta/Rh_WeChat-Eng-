@@ -24,7 +24,8 @@
       </p>
       <p  style="display:flex;">
         <input type="number" name="" value="" placeholder="请输入验证码" v-model="msgcode">
-        <button type="button" name="button" @click="sendCode()" :disabled="senCodeBtn" ref="codeBtn">{{codeText}}</button>
+        <!-- <button type="button" name="button" @click="sendCode()" :disabled="senCodeBtn" ref="codeBtn">{{codeText}}</button> -->
+        <SIdentify :identifyCode="picCode" @click.native="refreshCode()"></SIdentify>
       </p>
 
       <p class="register_text">
@@ -44,10 +45,12 @@
 
 <script>
 import {mapMutations} from 'vuex'
+import SIdentify from '@/components/picCode'
 import LoginHeader from '@/components/login_header'
 export default {
   components:{
-    LoginHeader
+    LoginHeader,
+    SIdentify
   },
   data(){
     return{
@@ -61,10 +64,16 @@ export default {
       recode:null,//推荐码
       msgcode:null,//短信验证码
       phoneCode:null,//回执验证码
+      picCode:String(Math.round(9000*Math.random()+1000)),
     }
   },
   methods:{
     ...mapMutations(['token_fn','userMes_fn']),
+    refreshCode(){//刷新验证码
+      let Num=null;
+      Num+=Math.round(9000*Math.random()+1000);
+      this.picCode=String(Num);
+    },
     sendCode(){//发送验证码
       if(this.userPhone==null||this.userPhone==''){
         this.$toast('请输入手机号')
@@ -121,9 +130,7 @@ export default {
         _this.$toast('请输入密码')
       }else if(_this.msgcode==null||_this.msgcode==''){
         _this.$toast('请输入验证码')
-      }else if(_this.msgcode.length!=6){
-        _this.$toast('请输入六位数的验证码')
-      }else if(_this.msgcode!=this.phoneCode){
+      }else if(String(_this.msgcode)!==this.picCode){
         _this.$toast('您输入的验证码有误')
       }else{
         let formdata=new FormData();
@@ -144,9 +151,11 @@ export default {
             _this.userMes_fn(res.data.data)
             _this.$router.push('/')
           }else{
+            _this.refreshCode()
             _this.$toast(res.data.msg)
           }
         }).catch((err)=>{
+          _this.refreshCode()
           _this.$toast('未知错误,请联系客服')
         })
       }

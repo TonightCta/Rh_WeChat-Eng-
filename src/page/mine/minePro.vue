@@ -28,8 +28,9 @@
                 <span v-if="pro.state==0" class="public_tate" style="color:#ccc;">已申请</span> -->
                 <p v-if="pro.state==0" style="color:#999;">已申请</p>
                 <p v-if="pro.ictDemandVO.state==3" style="color:#666;">已完成</p>
-                <p v-if="pro.ictDemandVO.state==4" style="color:#C93625;">已付款</p>
-                <p v-if="pro.choose!=null">
+                <p v-if="pro.ictDemandVO.state==4" style="color:#C93625;">已完工</p>
+                <p v-if="pro.ictDemandVO.state==5" style="color:#C93625;">已付款</p>
+                <p v-if="pro.choose!=null&&pro.ictDemandVO.state==1">
                   <van-button round type="info" size="small" color="#404040" v-if="pro.choose">未交付</van-button>
                   <span v-else style="color:#666;">未入选</span>
                 </p>
@@ -98,15 +99,26 @@ export default {
         name:'MineProDe'
       })
     },
-    getOrderList(){//获取接单列表
+    getOrderList(type,choose){//获取接单列表
       let _this=this;
-      console.log(_this.userMes)
       let formdata=new FormData();
       formdata.append('engineerId',_this.userMes.ictEngineerVO.id);
+      if(type!=undefined){
+        if(type!=1){
+          formdata.append('demandState',type);
+          formdata.append('choose',choose);
+        }else if(typeof(type)==Array){
+          type.forEach((e)=>{
+            formdata.append('demandState',e);
+          })
+          formdata.append('choose',choose);
+        }else{
+          formdata.append('demandState',type);
+        }
+      }
       _this.$axios.post(_this.url+'/ict/applyRecord/findListByCondition',formdata,{headers:{
         'Authorization':_this.token
       }}).then((res)=>{
-        console.log(res);
         if(res.data.code==0){
           _this.proList=res.data.data.content;
         }else {
@@ -117,8 +129,20 @@ export default {
       })
     },
     changeState(name,title){
-      console.log(title)
-      console.log(name)
+      this.onLoad()
+      // console.log(title);
+      // console.log(name);
+      if(title==='全部'){
+        this.getOrderList()
+      }else if(title==='已申请'){
+        this.getOrderList(1)
+      }else if(title==='未交付'){
+        this.getOrderList([2,3],true)
+      }else if(title==='已交付'){
+        this.getOrderList(4,true)
+      }else if(title==='已完成'){
+        this.getOrderList(5,true)
+      }
     },
   }
 }
@@ -156,7 +180,10 @@ export default {
         right:.5rem;
       }
       .pro_status{
-        margin-left: 2.5rem;
+        position: absolute;
+        right:1rem;
+        bottom: 1rem;
+        // marginrem-left: 2.5rem;
         .public_tate{
           margin-left: 1rem;
           font-size: 1.3rem;

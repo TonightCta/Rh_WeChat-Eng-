@@ -8,7 +8,8 @@
       <ul>
         <li>
           完成时间:&nbsp;
-          <input type="text" name="" value="" @click="choseDate()" v-model="endTime" placeholder="请选择完成时间">
+          <input type="text" name="" value=""v-model="endTime" placeholder="请选择完成时间">
+          <span @click="choseDate()"></span>
         </li>
         <li>
           <p>请上传任务图片或视频</p>
@@ -30,13 +31,14 @@
       />
     </van-popup>
     <div class="sub_btn">
-      <button type="button" name="button">立即上传</button>
+      <button type="button" name="button" @click="subDeliver()">立即上传</button>
     </div>
   </div>
 </template>
 
 <script>
 import WorkHeader from '@/components/work_header'
+import {mapState,mapMutations} from 'vuex'
 export default {
   components:{WorkHeader},
   data(){
@@ -45,12 +47,17 @@ export default {
       minDate:new Date(),//最小选择日期
       dateChose:false,//日期选择器
       endTime:null,//完成时间
-      fileList: [
-        { url: 'https://img.yzcdn.cn/vant/leaf.jpg' },
-      ]
+      fileList: [],//回显列表
     }
   },
+  computed:{
+    ...mapState(['proMesV','token'])
+  },
+  created(){
+    console.log(this.proMesV)
+  },
   methods:{
+    ...mapMutations(['proMes_fn']),
     choseDate(){//选择时间
       this.dateChose=true;
     },
@@ -64,6 +71,40 @@ export default {
     turnLoca(file){//选择文件
       console.log(file);
       console.log(this.fileList)
+    },
+    subDeliver(){//提交交付
+      let _this=this;
+      console.log(this.fileList);
+      console.log(_this.proMesV)
+      if (_this.endTime==null){
+        _this.$toast('请选择完工时间')
+      }else if(_this.fileList.length<1){
+        _this.$toast('请上传至少一张完工报告')
+      }else{
+        let formdata=new FormData();
+        formdata.append('demandId',_this.proMesV.ictDemandVO.id);
+        formdata.append('finishTime',_this.endTime);
+        _this.fileList.forEach((e)=>{
+          formdata.append('files',e.file);
+        });
+        _this.$axios.post(_this.url+'/ict/demand/finish',formdata,{
+          headers:{
+            'Authorization':_this.token
+          }
+        }).then((res)=>{
+          if(res.data.code==0){
+            console.log(res);
+            _this.proMes_fn(res.data.data);
+            _this.$toast('项目交付成功,等待客户付款');
+            _this.$router.go(-1);
+          }else{
+            _this.$toast(res.data.msg)
+          }
+          console.log(res)
+        }).catch((err)=>{
+          console.log(err)
+        })
+      }
     },
   }
 }
@@ -90,10 +131,20 @@ export default {
         position: relative;
         input{
           position: absolute;
-          right:.5rem;
+          left:8rem;
           top:.1rem;
-          width: 77%;
-          height: 90%;
+          width: 15rem;
+          height: 3rem;
+          line-height: 3rem;
+        }
+        span{
+          width: 100%;
+          height: 100%;
+          left:0;
+          top:0;
+          position: absolute;
+          background: red;
+          opacity: 0;
         }
         // .showPic{
         //   display: flex;
