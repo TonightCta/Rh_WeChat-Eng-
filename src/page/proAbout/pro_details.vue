@@ -10,7 +10,7 @@
           <img src="../../../static/img/dont.jpg" alt="">
         </p>
         <p class="pro_title">
-          <span>{{proMes.category}}</span></br>
+          <span>{{proMes.projectName}}</span></br>
           <span class="pro_count">￥{{parseInt(proMes.minBudget)}}-{{parseInt(proMes.maxBudget)}}</span>
           <span v-if="proMes.state==0">报名中</span>
         </p>
@@ -30,6 +30,7 @@
     <!-- 立即接单 -->
     <div class="pro_apply">
       <p>
+        <a href="tel:010-62115806"></a>
         <van-icon name="phone" color="#C93625" size="26" /><br>
         客服
       </p>
@@ -165,6 +166,16 @@ export default {
     p:first-child{
       width: 20%;
       text-align: center;
+      position: relative;
+      a{
+        width:100%;
+        height:100%;
+        position:absolute;
+        background: red;
+        left:0;
+        top:0;
+        opacity: 0;
+      }
     }
     p:last-child{
       width: 80%;

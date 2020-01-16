@@ -119,6 +119,7 @@ export default {
       _this.$axios.post(_this.url+'/ict/applyRecord/findListByCondition',formdata,{headers:{
         'Authorization':_this.token
       }}).then((res)=>{
+        console.log(res)
         if(res.data.code==0){
           _this.proList=res.data.data.content;
         }else {

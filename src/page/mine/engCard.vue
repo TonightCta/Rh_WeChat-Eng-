@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {mapState,mapMutations} from 'vuex'
 import WorkHeader from '@/components/work_header'
 export default {
   data(){
@@ -36,6 +36,7 @@ export default {
     ...mapState(['engAuth','token'])
   },
   methods:{
+    ...mapMutations(['userMes_fn']),
     subAuth(){//上传认证
       let _this=this;
       if(_this.cerName==null||_this.cerName==''){
@@ -50,6 +51,8 @@ export default {
         formdata.append('expert',_this.engAuth.feildText)
         formdata.append('serviceType',_this.engAuth.typeText)
         formdata.append('receivingPlace',_this.engAuth.workText);
+        formdata.append('phone',_this.engAuth.phone);
+        formdata.append('email',_this.engAuth.email);
         let formdataCer=new FormData();
         formdataCer.append('name',_this.cerName)
         formdataCer.append('industry',_this.cerType)
@@ -69,14 +72,16 @@ export default {
                 'Authorization':_this.token
               }
             }).then((res)=>{
-              // console.log(res);
+              console.log(res);
               if(res.data.code==0){
+                _this.userMes_fn(res.data.data);
                 _this.$toast('您的认证信息已提交,请耐心等待系统审核');
                 _this.$router.push('/mine')
               }else{
                 _this.$toast(res.data.msg)
               }
             }).catch((err)=>{
+              console.log(err)
               _this.$toast('未知错误,请联系客服')
               // console.log(err)
             })

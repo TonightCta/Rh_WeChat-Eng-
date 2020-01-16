@@ -30,9 +30,7 @@
 
       <p class="register_text">
         注册即同意
-        <span>
-          <<用户注册协议>>
-        </span>
+        <router-link to="/agreement" tag="span"><<用户注册协议>></router-link>
       </p>
       <span>
         <button type="button" name="button" @click="regisEng()">注册</button>

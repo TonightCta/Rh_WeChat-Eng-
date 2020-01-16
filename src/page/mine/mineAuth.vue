@@ -35,7 +35,7 @@
         <li>
           工程师认证
             <span class="public_text">{{engAuthText}}</span>
-            <router-link to="/engAuth" tag="span" class="stopMask" v-if="stopMask"></router-link>
+            <router-link to="/engAuth" tag="span" class="stopMask" v-if="userMes.ictEngineerVO.state==-1||userMes.ictEngineerVO.state==0"></router-link>
             <span class="public_text icon">
               <van-icon name="arrow" size="22"/>
             </span>

@@ -5,12 +5,16 @@ Vue.use(Vuex);
 
 const store=new Vuex.Store({
   state:{
+    isLogin:false,
     userMes:{},//用户信息
     proMesV:{},//项目详细信息
     token:null,//接口验证标识
     engAuth:{},//工程师认证信息
   },
   mutations:{
+    isLogin_fn(state,opt){//全局登录状态
+      state.isLogin=opt
+    },
     userMes_fn(state,opt){//用户信息
       state.userMes=opt
     },

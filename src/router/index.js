@@ -146,6 +146,11 @@ const router=new Router({
       path:'/mineLiver',//项目交付
       name:'MineLiver',
       component:resolve=>require(['@/page/mine/mineNLiver'],resolve)
+    },
+    {
+      path:'/agreement',//注册协议
+      name:'Agreement',
+      component:resolve=>require(['@/page/Agreement'],resolve)
     }
   ]
 });

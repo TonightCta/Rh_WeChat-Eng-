@@ -20,6 +20,14 @@
           <input type="text" name="" value="" placeholder="请选择至少五项服务类型" disabled="disabled" v-model="upMes.typeText">
         </router-link>
         <li>
+          <span>手机号:</span>
+          <input type="number" placeholder="请输入您的手机号" name="" value="" v-model="upMes.phone">
+        </li>
+        <li>
+          <span>邮箱:</span>
+          <input type="text" placeholder="请输入您的邮箱" name="" value="" v-model="upMes.email">
+        </li>
+        <li>
           <span>可接受服务区域:</span>
           <input type="text" name="" value="" placeholder="请选择至少五项服务区域" disabled="disabled" v-model="upMes.workText">
           <span class="domMask" @click="workChose=true"></span>
@@ -83,8 +91,10 @@ export default {
       placeChose:false,//地址选择
       placeList:[],//地点列表
       workChose:false,//服务区域选择
-      workList:['北京市','邯郸市','天津市','郑州市','秦皇岛市'],//服务区域列表
+      workList:[],//服务区域列表
       upMes:{
+        phone:null,//用户手机号
+        email:null,//用户邮箱
         cityText:null,//所在地区文本
         workText:null,//服务区域文本
         feildText:null,//擅长领域文本
@@ -99,6 +109,12 @@ export default {
     this.placeList=PlaceData.data;
     if(this.engAuth.workText!=null){
       this.upMes.workText=this.engAuth.workText
+    }
+    if(this.engAuth.phone!=null){
+      this.upMes.phone=this.engAuth.phone
+    }
+    if(this.engAuth.email!=null){
+      this.upMes.email=this.engAuth.email
     }
     if(this.engAuth.cityText!=null){
       this.upMes.cityText=this.engAuth.cityText
@@ -149,12 +165,21 @@ export default {
       };
     },
     nextStep(){//下一步资质认证
+      let reg = new RegExp("^[a-z0-9A-Z]+[- | a-z0-9A-Z . _]+@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-z]{2,}$");
       if(this.upMes.cityText==null){
         this.$toast('请选择所在地区')
       }else if(this.upMes.feildText==null){
         this.$toast('请选择擅长领域')
       }else if(this.upMes.typeText==null){
         this.$toast('请选择服务类型')
+      }else if(this.upMes.phone==null||this.upMes.phone==''){
+        this.$toast('请输入您的手机号')
+      }else if(!(/^1[3456789]\d{9}$/.test(this.upMes.phone))){
+        _this.$toast('请输入正确的手机号码')
+      }else if(this.upMes.email==null||this.upMes.email==''){
+        this.$toast('请输入您的邮箱')
+      }else if(!reg.test(this.upMes.email)){
+        _this.$toast('请输入正确的邮箱')
       }else if(this.upMes.workText==null){
         this.$toast('请选择服务区域')
       }else{

@@ -54,7 +54,7 @@
       <p v-if="proMes.ictDemandVO.state==4" style="color:#C93625;">已完工</p>
       <p v-if="proMes.ictDemandVO.state==5" style="color:#C93625;">已付款</p>
       <p v-if="proMes.choose!=null">
-        <button type="button" name="button" @click="liverPro()" v-if="proMes.choose">立即交付</button>
+        <button type="button" name="button" @click="liverPro()"  v-if="proMes.choose">立即交付</button>
         <span v-else style="color:#666;">未入选</span>
       </p>
     </div>

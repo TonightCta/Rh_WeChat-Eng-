@@ -23,7 +23,20 @@
           </van-pull-refresh>
         </van-tab>
         <van-tab title="系统消息">
-          系统消息
+          <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+            <van-list
+              v-model="loading"
+              :finished="finished"
+              finished-text="没有更多了"
+              @load="onLoad"
+              class="mes_list"
+            >
+              <van-cell  v-for="(mes,indexMes) in messageList" :key="indexMes" class="list_con">
+                <p>{{mes.content}}</p>
+                <span>{{mes.time}}</span>
+              </van-cell>
+            </van-list>
+          </van-pull-refresh>
         </van-tab>
       </van-tabs>
     </div>
@@ -40,16 +53,7 @@ export default {
       isLoading: false,
       loading: false,
       finished: false,
-      messageList:[
-        {
-          content:'退出登录',
-          time:'2019/08/09  18:56'
-        },
-        {
-          content:'退出登录',
-          time:'2019/12/10  09:22'
-        }
-      ]
+      messageList:[]
     }
   },
   methods:{

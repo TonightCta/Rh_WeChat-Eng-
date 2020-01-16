@@ -24,13 +24,19 @@
           confirmButtonColor="#C93625"
         >
           <!-- <img src="https://img.yzcdn.cn/vant/apple-3.jpg"> -->
-          <p>一、我完成了一个任务可以拿到多少赏金？</p>
-          <span>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
-          <p class="noAnswer">
+          <div class="nodeKnow">
+            <p>一、我完成了一个任务可以拿到多少赏金？</p>
+            <span>1.雇主要求开具发票，接单工程师可提供相应发票，任务完成后工程师可以获得90%的项目赏金，“犀牛小哥”提供开票信息，工程师需按照雇主要求开具相应类型的发票。</span>
+            <span>2.雇主要求开具发票，工程师不能提供相应发票，项目完成后工程师可获得85%的项目赏金。</span>
+            <span>3.雇主不要求开具发票，任务完成后工程师可以获得90%的任务赏金。</span>
+            <p style="marginTop:1rem;">二、任务的价格和时间是雇主根据其行业特点和专业需求确定的，提倡专业的工程师申请专业的任务；在工程师申请并入围之后通过此功能与平台项目经理协商确定。若双方没有达成共识，工程师主动放弃了这次任务，将不会影响其在平台的信用值。</p>
+            <p style="marginTop:1rem;">三、申请接单后，平台通过了审核，工程师需第一时间和平台方达成服务共识；尽快按照要求到达指定地点完成指定任务。</p>
+          </div>
+          <!-- <p class="noAnswer">
             <van-radio-group v-model="isAgain" checked-color="#C93625" icon-size="18">
               <van-radio name="1">不再提示</van-radio>
             </van-radio-group>
-          </p>
+          </p> -->
         </van-dialog>
       </div>
     </div>
@@ -131,13 +137,21 @@ export default {
   .mustknow{
     p{
       font-size: 1.5rem;
-      text-align: center;
+      width: 90%;
+      margin:0 auto;
     }
     span{
       width: 80%;
       margin-left:4rem;
       margin-top: 1rem;
       word-wrap:break-word;
+    }
+    .nodeKnow{
+      height: 12rem;
+      overflow-y: auto;
+      span{
+        font-size: 1.3rem;
+      }
     }
     .noAnswer{
       margin-top: 2rem;

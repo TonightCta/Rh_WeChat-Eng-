@@ -38,11 +38,13 @@ export default {
     ...mapState(['userMes','token'])
   },
   mounted(){
-    this.feildList=this.userMes.ictEngineerVO.expert.split('/');
-    for(let i in this.feildList){
-      this.$refs.feildDom[this.felidList.indexOf(this.feildList[i])].style.background="#C93625";
-      this.$refs.feildDom[this.felidList.indexOf(this.feildList[i])].style.color="white";
-      this.$refs.feildBack[this.felidList.indexOf(this.feildList[i])].style.display="block";
+    if(this.userMes.ictEngineerVO.expert!=null){
+      this.feildList=this.userMes.ictEngineerVO.expert.split('/');
+      for(let i in this.feildList){
+        this.$refs.feildDom[this.felidList.indexOf(this.feildList[i])].style.background="#C93625";
+        this.$refs.feildDom[this.felidList.indexOf(this.feildList[i])].style.color="white";
+        this.$refs.feildBack[this.felidList.indexOf(this.feildList[i])].style.display="block";
+      }
     }
   },
   methods:{

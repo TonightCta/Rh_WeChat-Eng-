@@ -8,7 +8,7 @@
       <div class="con_card">
         <p class="user_pic">
           头像
-          <img src="../../../static/img/dont.jpg" alt="">
+          <img :src="userMes.headImgUrl" alt="">
         </p>
         <p class="user_nickname">
           昵称:&nbsp;{{nickName}}
@@ -18,13 +18,16 @@
       </div>
       <div class="con_mes">
         <ul>
-          <li>手机号:&nbsp;{{engPhone}}
+          <li>手机号:&nbsp;<span v-if="engPhone!=null">{{engPhone}}</span><span v-else>-</span>
           <!-- <input type="text" name="" value="" v-if="editPhone" placeholder="请输入您的昵称" v-model="engPhone"> -->
           <!-- <span v-else @click="editPhone=true;saveBtn=true;"></span> -->
           </li>
           <router-link to="/mineIndu" tag="li">擅长行业:&nbsp;{{induText}}</router-link>
           <router-link to="/mineFirstFeild" tag="li">擅长领域:&nbsp;{{feildText}}</router-link>
-          <li>所在地区:&nbsp;北京-海淀区</li>
+          <li>所在地区:&nbsp;
+            <span v-if="userMes.ictEngineerVO.livePlace!=null">{{userMes.ictEngineerVO.livePlace}}</span>
+            <span v-else>-</span>
+          </li>
           <router-link to="/mineAuth" tag="li">
             我的认证&nbsp;
               <span class="right_oper icon">
@@ -71,6 +74,7 @@ export default {
     ...mapState(['userMes','token'])
   },
   created(){
+    // alert(window.location.href)
     console.log(this.userMes)
     this.engPhone=this.userMes.mobile;
     this.nickName=this.userMes.ictEngineerVO.name;
@@ -79,6 +83,11 @@ export default {
       this.induText=this.userMes.ictEngineerVO.industry;
     }else{
       this.induText='-'
+    }
+    if(this.userMes.ictEngineerVO.expert!=null){
+      this.feildText=this.userMes.ictEngineerVO.expert;
+    }else{
+      this.feildText='-'
     }
   },
   methods:{
@@ -197,26 +206,7 @@ export default {
             top:.5rem;
           }
         }
-        li:first-child{
-          position: relative;
-          overflow: hidden;
-          input{
-            width: 100%;
-            height: 3rem;
-            border-bottom:1px solid #ccc;
-            position: absolute;
-            left:6rem;
-            top:2rem;
-          }
-          span{
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            left:0;
-            right:0;
-            opacity: 0;
-          }
-        }
+
       }
     }
   }

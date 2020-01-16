@@ -75,14 +75,17 @@ export default {
        }, 500);
     },
     proApply(indexPro){
-      if(this.token==null||this.token==''){
-        this.$toast('您还未登录, 请您进行登录')
-      }else{
+      // if(this.token==null||this.token==''){
+      //   this.$toast('您还未登录, 请您进行登录');
+      //   setTimeout(()=>{
+      //     this.$router.push('/login')
+      //   },1000)
+      // }else{
         this.proMes_fn(this.proList[indexPro])
         this.$router.push({
           name:'ProDetials'
         })
-      }
+      // }
     },
     getProList(type){
       let _this=this;
