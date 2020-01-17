@@ -1,5 +1,5 @@
 export function getUrlParams(name) { // 不传name返回所有值，否则返回对应值
-    var url = window.location.href;
+    var url =window.location.href;
     if (url.indexOf('?') == 1) { return false; }
     url = url.substr(1);
     url = url.split('?');

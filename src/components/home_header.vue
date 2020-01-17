@@ -87,24 +87,31 @@ export default {
         _this.$axios.post(_this.url+'/ict/operator/login_openId',formdata).then((res)=>{
           console.log(res)
           if(res.data.code==0){
+            if(res.data.data.ictOperatorVO.identityType==2){
+              _this.token_fn(res.data.data.token)
+              _this.userMes_fn(res.data.data.ictOperatorVO)
+              _this.isLogin_fn(true);
+              let formdataA=new FormData();
+              formdataA.append('operatorId',res.data.data.ictOperatorVO.id)
+              formdataA.append('title','犀牛小哥')
+              formdataA.append('type','消息通知')
+              formdataA.append('content','欢迎您注册并使用犀牛小哥！');
+              _this.$axios.post(_this.url+'/ict/message/sendForOperator',formdataA).then((res)=>{
+                if(res.data.code==0){
+
+                }else{
+                  _this.$toast(res.data.msg)
+                }
+              }).catch((err)=>{
+                _this.$toast('授权登录失败,请返回后再试')
+              })
+            }else{
+              _this.$toast('该账户已在客户端注册，请返回客户端重试')
+              setTimeout(()=>{
+                window.open('http://www.ictwork.cn/mobile/')
+              },500)
+            }
             // alert(1)
-            _this.token_fn(res.data.data.token)
-            _this.userMes_fn(res.data.data.ictOperatorVO)
-            _this.isLogin_fn(true);
-            let formdataA=new FormData();
-            formdataA.append('operatorId',res.data.data.ictOperatorVO.id)
-            formdataA.append('title','犀牛小哥')
-            formdataA.append('type','消息通知')
-            formdataA.append('content','欢迎您注册并使用犀牛小哥！');
-            _this.$axios.post(_this.url+'/ict/message/sendForOperator',formdataA).then((res)=>{
-              if(res.data.code==0){
-                
-              }else{
-                _this.$toast(res.data.msg)
-              }
-            }).catch((err)=>{
-              _this.$toast('授权登录失败,请返回后再试')
-            })
           }else{
             _this.$toast(res.data.msg)
           }
