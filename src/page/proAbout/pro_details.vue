@@ -7,10 +7,12 @@
     <div class="details_con">
       <div class="con_title">
         <p class="pro_pic">
-          <img src="../../../static/img/dont.jpg" alt="">
+          <img src="../../../static/img/pro_pic.jpg" alt="">
         </p>
         <p class="pro_title">
           <span>{{proMes.projectName}}</span></br>
+          <span v-if="proMes.content!=null">{{proMes.content}}</br></span>
+          <span v-else>-</span></br>
           <span class="pro_count">￥{{parseInt(proMes.minBudget)}}-{{parseInt(proMes.maxBudget)}}</span>
           <span v-if="proMes.state==0">报名中</span>
         </p>
@@ -21,7 +23,10 @@
       </div>
       <div class="con_mes">
         <p class="mes_title">服务内容和要求:</p>
-        <p class="mes_message">{{proMes.type}}</p>
+        <p class="mes_message">
+          <span v-if="proMes.content!=null">{{proMes.content}}</span>
+          <span v-else>-</span>
+        </p>
         <p class="mes_title">所需技能和方向:</p>
         <p class="mes_message">{{proMes.category}}</p>
         <!-- <p class="mes_title">涉及到的设备:</p> -->
@@ -61,7 +66,12 @@ export default {
   methods:{
     applyPro(){
       console.log(this.userMes);
-      if(this.userMes.ictEngineerVO.state==0){
+      if(this.userMes.ictEngineerVO.identityVOList==null){
+        this.$toast('您还未进行实名认证！');
+        setTimeout(()=>{
+          this.$router.push('/mineCard')
+        },500)
+      }else if(this.userMes.ictEngineerVO.state==0){
         this.$toast('您还未进行工程师认证！');
         setTimeout(()=>{
           this.$router.push('/mineAuth')
@@ -109,20 +119,19 @@ export default {
         span:first-child{
           font-size: 1.5rem;
           font-weight: bold;
-          margin-top: 1rem;
         }
         .pro_count{
           color:$tem-color;
           margin-top: 1rem;
           font-size: 1.5rem;
         }
-        span:last-child{
-          position: absolute;
-          color:$tem-color;
-          font-size: 1.4rem;
-          right:1rem;
-          top:1.2rem;
-        }
+        // span:last-child{
+        //   position: absolute;
+        //   color:$tem-color;
+        //   font-size: 1.4rem;
+        //   right:1rem;
+        //   top:1.2rem;
+        // }
       }
     }
     .con_place{

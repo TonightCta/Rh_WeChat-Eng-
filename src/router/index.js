@@ -78,6 +78,11 @@ const router=new Router({
       component:resolve=>require(['@/page/mine/mineMessages'],resolve)
     },
     {
+      path:'/msgDetails',//消息详情
+      name:'MsgDetails',
+      component:resolve=>require(['@/page/mine/msgDetials'],resolve)
+    },
+    {
       path:'/minePro',//个人接单
       name:'MinePro',
       component:resolve=>require(['@/page/mine/minePro'],resolve)

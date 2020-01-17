@@ -8,7 +8,7 @@
     <div class="user_list">
       <van-popup v-model="show"  position="left" :style="{width:'50%',height:'100%'}">
         <p class="user_icon">
-          <img :src="userMes.headImgUrl" alt="" @click="goLogin()"/>
+          <img :src="headImgUrl" alt="" @click="goLogin()"/>
         </p>
         <ul class="list_toute">
           <li>昵称:  {{userName}}</li>
@@ -34,6 +34,7 @@ export default {
       userName:null,//用户昵称
       userPhone:null,//用户手机号
       openID:getUrlParams('openid').split('#'),
+      headImgUrl:null,//用户头像
     }
   },
   computed:{
@@ -48,13 +49,15 @@ export default {
   },
   mounted(){
     setTimeout(()=>{
+      console.log(this.userMes,123123)
       this.userName=this.userMes.ictEngineerVO.name;
+      this.headImgUrl=this.userMes.headImgUrl;
       if(this.userMes.ictEngineerVO.phone!=null){
         this.userPhone=this.userMes.ictEngineerVO.phone;
       }else{
         this.userPhone='未绑定';
       }
-    },200)
+    },500)
   },
   methods:{
     ...mapMutations(['userMes_fn','token_fn','isLogin_fn']),
@@ -87,7 +90,21 @@ export default {
             // alert(1)
             _this.token_fn(res.data.data.token)
             _this.userMes_fn(res.data.data.ictOperatorVO)
-            _this.isLogin_fn(true)
+            _this.isLogin_fn(true);
+            let formdataA=new FormData();
+            formdataA.append('operatorId',res.data.data.ictOperatorVO.id)
+            formdataA.append('title','犀牛小哥')
+            formdataA.append('type','消息通知')
+            formdataA.append('content','欢迎您注册并使用犀牛小哥！');
+            _this.$axios.post(_this.url+'/ict/message/sendForOperator',formdataA).then((res)=>{
+              if(res.data.code==0){
+                
+              }else{
+                _this.$toast(res.data.msg)
+              }
+            }).catch((err)=>{
+              _this.$toast('授权登录失败,请返回后再试')
+            })
           }else{
             _this.$toast(res.data.msg)
           }

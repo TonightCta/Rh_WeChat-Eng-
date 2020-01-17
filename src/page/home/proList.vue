@@ -68,6 +68,7 @@ export default {
       }, 500);
     },
     onRefresh() {   //下拉刷新
+      this.getProList()
      setTimeout(() => {
          this.$toast('刷新成功');
          this.isLoading = false;

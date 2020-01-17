@@ -16,7 +16,7 @@
         </p>
       </div>
       <div class="" style="marginBottom:1rem;borderBottom:12px solid #eee;boxSizing:border-box;paddingLeft:1rem;">
-        <van-steps direction="vertical" :active="proMes.ictDemandVO.state" active-color="#C93625">
+        <van-steps direction="vertical" :active="proMes.ictDemandVO.state-1" active-color="#C93625">
           <van-step>
             <p>提交申请,等待审核</p>
             <p>{{proMes.ictDemandVO.startTime}}</p>
@@ -41,7 +41,10 @@
       </div>
       <div class="con_mes">
         <p class="mes_title">服务内容和要求:</p>
-        <p class="mes_message">棋盘井光纤</p>
+        <p class="mes_message">
+          <span v-if="proMes.content!=null">{{proMes.content}}</span>
+          <span v-else>-</span>
+        </p>
         <p class="mes_title">所需技能和方向:</p>
         <p class="mes_message">{{proMes.ictDemandVO.category}}</p>
 
@@ -50,7 +53,7 @@
     <!-- 立即接单 -->
     <div class="pro_state">
       <p v-if="proMes.state==0" style="color:#999;">已申请</p>
-      <p v-if="proMes.ictDemandVO.state==3" style="color:#666;">已完成</p>
+      <!-- <p v-if="proMes.ictDemandVO.state==3" style="color:#666;">已完成</p> -->
       <p v-if="proMes.ictDemandVO.state==4" style="color:#C93625;">已完工</p>
       <p v-if="proMes.ictDemandVO.state==5" style="color:#C93625;">已付款</p>
       <p v-if="proMes.choose!=null">

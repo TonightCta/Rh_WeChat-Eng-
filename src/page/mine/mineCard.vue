@@ -7,7 +7,7 @@
     <div class="card_con">
       <ul>
         <li>真实姓名:&nbsp;<input type="text" name="" value="" placeholder="请输入您的真实姓名" v-model="cardName"></li>
-        <li>证件号码:&nbsp;<input type="text" name="" value="" placeholder="请输入您的真实姓名" v-model="cardID"></li>
+        <li>证件号码:&nbsp;<input type="text" name="" value="" placeholder="请输入您的身份证号码" v-model="cardID"></li>
         <li>
           请上传本人有效二代身份证件
           <div class="" style="display:flex;" v-if="isHasUp">
@@ -164,7 +164,8 @@ export default {
          }).then((res)=>{
            if(res.data.code==0) {
              _this.userMes_fn(res.data.data.ictOperatorVO);
-             _this.$toast('上传实名信息成功,请耐心等待等待审核')
+             _this.$toast('上传实名信息成功,请耐心等待等待审核');
+             _this.$router.go(-1)
            }else{
              _this.$toast(res.data.msg)
            }

@@ -27,10 +27,10 @@
                 <span v-if="pro.state==1" class="public_tate" style="color:red;">进行中</span>
                 <span v-if="pro.state==0" class="public_tate" style="color:#ccc;">已申请</span> -->
                 <p v-if="pro.state==0" style="color:#999;">已申请</p>
-                <p v-if="pro.ictDemandVO.state==3" style="color:#666;">已完成</p>
+                <!-- <p v-if="pro.ictDemandVO.state==3&&pro.choose==null" style="color:#666;">已开工</p> -->
                 <p v-if="pro.ictDemandVO.state==4" style="color:#C93625;">已完工</p>
                 <p v-if="pro.ictDemandVO.state==5" style="color:#C93625;">已付款</p>
-                <p v-if="pro.choose!=null&&pro.ictDemandVO.state==1">
+                <p v-if="pro.choose!=null&&pro.ictDemandVO.state==3">
                   <van-button round type="info" size="small" color="#404040" v-if="pro.choose">未交付</van-button>
                   <span v-else style="color:#666;">未入选</span>
                 </p>
@@ -87,6 +87,7 @@ export default {
       }, 500);
     },
     onRefresh() {   //下拉刷新
+      this.getOrderList()
      setTimeout(() => {
          this.$toast('刷新成功');
          this.isLoading = false;
